@@ -1,0 +1,84 @@
+
+<style>
+    :root {
+        --primary-color: #007bff; /* 专速通主色调 - 蓝色，代表专业、高效 */
+        --secondary-color: #ffc107; /* 辅助色 - 黄色，用于强调保障、承诺 */
+        --dark-color: #212529;
+        --light-color: #ffffff;
+        --gray-color: #f8f9fa;
+        --text-color: #343a40;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.7; color: var(--text-color); }
+    .navbar-brand { font-weight: bold; }
+    .hero {
+        position: relative;
+        padding: 120px 0;
+        background-color: var(--dark-color);
+        color: var(--light-color);
+        text-align: center;
+        background-size: cover;
+        background-position: center;
+    }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); }
+    .hero .container { position: relative; z-index: 2; }
+    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .hero .lead { font-size: 1.25rem; font-weight: 300; margin-bottom: 2rem; }
+    .btn-warning { color: #000; background-color: var(--secondary-color); border-color: var(--secondary-color); font-weight: bold; padding: 0.75rem 1.5rem; }
+    section { padding: 80px 0; }
+    .section-title { text-align: center; margin-bottom: 60px; }
+    .section-title h2 { font-size: 2.5rem; font-weight: 700; }
+    .section-title p { font-size: 1.1rem; color: #6c757d; max-width: 700px; margin: 0 auto; }
+    .feature-card { border: none; border-radius: 10px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); padding: 40px; text-align: center; transition: all 0.3s ease; height: 100%; }
+    .feature-card:hover { transform: translateY(-10px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
+    .feature-card .icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 20px; }
+    .why-us-item { display: flex; align-items: flex-start; margin-bottom: 30px; }
+    .why-us-item .icon { font-size: 2.5rem; color: var(--primary-color); margin-right: 25px; }
+    .price-table { border: 1px solid #dee2e6; border-radius: 10px; overflow: hidden; }
+    .price-table .table { margin-bottom: 0; }
+    .price-table .table thead th { background-color: var(--gray-color); }
+    .price-table .risk-guarantee-row { background-color: rgba(255, 193, 7, 0.1); font-weight: bold; }
+    .risk-guarantee-row .bi-award-fill { color: var(--secondary-color); }
+    .faq-accordion .accordion-button:not(.collapsed) { color: var(--light-color); background-color: var(--primary-color); }
+    footer { background-color: var(--dark-color); color: rgba(255,255,255,0.7); padding: 40px 0; }
+    footer p { margin-bottom: 0.5rem; }
+
+    /* --- 新页眉样式 --- */
+    .navbar { background: #000; padding: 1rem 1.5rem; transition: padding 0.3s; }
+    .navbar-brand { color: var(--light-color) !important; font-size: 1.5rem; }
+    .navbar .nav-link { color: rgba(255,255,255,0.8); font-weight: 500; transition: color 0.3s; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--secondary-color); }
+    .nav-contact-btn {
+        padding: 0.5rem 1.5rem !important;
+        border-radius: 5px;
+        background: var(--primary-color);
+        color: var(--light-color) !important;
+        font-weight: bold;
+        transition: background .3s;
+        margin-left: 1rem;
+    }
+    .nav-contact-btn:hover { background: #0056b3; color: var(--light-color) !important; }
+
+    /* --- 新页脚样式 --- */
+    footer {
+        background-color: #1C1C1C;
+        color: #ccc;
+        padding: 40px 0;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+    footer p { margin: 5px 0; }
+    footer a { color: #ccc; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-brand-tagline { font-weight: bold; color: #fff; margin-bottom: 15px; }
+
+    /* 适配小屏幕的按钮 */
+    @media (max-width: 991.98px) {
+        .nav-contact-btn { margin-left: 0; margin-top: 1rem; text-align: center; display: block; }
+    }
+
+/* “如何做到”部分的优势卡片图标 */
+.advantage-card .icon {
+    font-size: 2.5rem; /* 尺寸比服务图标稍小，形成主次对比 */
+    /* 其他样式保持不变 */
+}
+</style>
