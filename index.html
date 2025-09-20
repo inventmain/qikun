@@ -119,25 +119,24 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-7 mb-3 mb-lg-0">
-            <form id="timeQueryForm" novalidate action="https://formspree.io/f/mjkenazp"
-  method="POST"> 
+            <form id="timeQueryForm" action="https://formspree.io/f/mjkenazp" method="POST"> 
               <div class="mb-3">
                 <label for="targetDate" class="form-label">目标日期（您希望在此日期前拿到证书）</label>
-                <input type="date" id="targetDate" name="targetDate" class="form-control" required>
+                <input type="date" id="targetDate" name="目标日期" class="form-control" required>
               </div>
               <div class="mb-3">
                 <label for="shortDesc" class="form-label">一句话描述（技术/作品/商标名称）</label>
-                <input type="text" id="shortDesc" name="shortDesc" class="form-control" placeholder="例如：智能门锁的快充算法 / APP 'XX' 版本" maxlength="200" required>
+                <input type="text" id="shortDesc" name="简述" class="form-control" placeholder="例如：智能门锁的快充算法 / APP 'XX' 版本" maxlength="200" required>
               </div>
               <div class="mb-3">
                 <label for="contactInfo" class="form-label">联系方式（手机号或微信号）</label>
-                <input type="text" id="contactInfo" name="contactInfo" class="form-control" placeholder="手机号或微信号，方便我们快速联系" required>
+                <input type="text" id="contactInfo" name="联系方式" class="form-control" placeholder="手机号或微信号，方便我们快速联系" required>
               </div>
               <div class="text-end">
                 <button type="submit" class="btn btn-primary">提交询问 — 我们 1 个工作日内回复</button>
               </div>
             </form>
-          </div>
+            </div>
           <div class="col-lg-5 text-center align-self-center">
             <p class="mb-2 fw-bold">或扫码立即加顾问微信</p>
             <img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid mb-2" style="max-width:200px;">
@@ -226,51 +225,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+  // ***** SCRIPT MODIFICATION START *****
   (function(){
+    // This part is for the date picker minimum date, it can remain.
     var today = new Date().toISOString().split('T')[0];
     var dateInput = document.getElementById('targetDate');
     if (dateInput) {
         dateInput.min = today;
     }
-
-    var form = document.getElementById('timeQueryForm');
-    if (form) {
-        form.addEventListener('submit', function(event){
-            event.preventDefault();
-            
-            var targetDate = document.getElementById('targetDate').value.trim();
-            var desc = document.getElementById('shortDesc').value.trim();
-            var contact = document.getElementById('contactInfo').value.trim();
-            
-            if (!targetDate || !desc || !contact) {
-                alert('请完整填写目标日期、简述与联系方式，以便我们快速回复。');
-                return;
-            }
-
-            var subject = '专速通 - 时效询问';
-            var body = '目标日期: ' + targetDate + '\n' +
-                       '简述: ' + desc + '\n' +
-                       '联系方式: ' + contact + '\n' +
-                       '来源: 网站（InventMain Hero）';
-            
-            window.location.href = 'mailto:contact@inventmain.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-
-            try {
-                var modalEl = document.getElementById('timeQueryModal');
-                var modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) {
-                    modal.hide();
-                }
-            } catch (err) { 
-                console.error("Modal closing failed:", err);
-            }
-
-            setTimeout(function(){
-                alert('我们已收到您的询问（或已尝试打开您的邮件客户端）。若邮件客户端未自动打开，请放心，我们的顾问也会尽快通过您填写的联系方式主动与您联系。');
-            }, 400);
-        });
-    }
+    // The original form submission script that creates a 'mailto:' link is no longer needed
+    // because Formspree will handle the submission.
   })();
+  // ***** SCRIPT MODIFICATION END *****
 </script>
 
 </body>

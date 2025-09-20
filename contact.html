@@ -27,7 +27,6 @@
         .floating-contact-btn { position: fixed; right: 25px; bottom: 25px; z-index: 1050; }
         .floating-contact-btn button { background: #00C853; border: none; border-radius: 50%; width: 60px; height: 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); color: #fff; font-size: 24px; display: flex; align-items: center; justify-content: center; }
         
-        /* Responsive/Multi-device Adaptation */
         @media (max-width: 991.98px) { 
             .nav-contact-btn { margin-left: 0; margin-top: 1rem; text-align: center; display: block; } 
             .page-header { margin-top: 72px; } 
@@ -77,18 +76,27 @@
                 <div class="col-lg-6">
                     <h3 class="mb-4">在线咨询</h3>
                     <form id="contactForm" action="https://formspree.io/f/mwpngyjo" method="POST">
-                        <div class="mb-3"><label for="name" class="form-label">您的姓名</label><input type="text" class="form-control" id="name" required></div>
-                        <div class="mb-3"><label for="phone" class="form-label">联系电话</label><input type="tel" class="form-control" id="phone" required></div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">您的姓名</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">联系电话</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                        </div>
                         <div class="mb-3">
                             <label for="interest" class="form-label">您感兴趣的服务</label>
-                            <select class="form-select" id="interest">
+                            <select class="form-select" id="interest" name="interest">
                                 <option selected>请选择...</option><option>专利快速授权</option><option>商标注册</option><option>软件著作权</option><option>渠道合作</option><option>其他</option>
                             </select>
                         </div>
-                        <div class="mb-3"><label for="message" class="form-label">留言</label><textarea class="form-control" id="message" rows="4"></textarea></div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">留言</label>
+                            <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                        </div>
                         <button type="submit" class="btn btn-primary w-100 btn-lg">提交咨询</button>
                     </form>
-                </div>
+                    </div>
             </div>
         </section>
     </main>
@@ -106,7 +114,7 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header"><h5 class="modal-title" id="timeQueryModalLabel">查询时效 — 填写目标日期或直接扫码联系我们</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button></div>
-          <div class="modal-body"><div class="row"><div class="col-lg-7 mb-3 mb-lg-0"><form id="timeQueryForm" novalidate><div class="mb-3"><label for="targetDate" class="form-label">目标日期（您希望在此日期前拿到证书）</label><input type="date" id="targetDate" name="targetDate" class="form-control" required></div><div class="mb-3"><label for="shortDesc" class="form-label">一句话描述（技术/作品/商标名称）</label><input type="text" id="shortDesc" name="shortDesc" class="form-control" placeholder="例如：智能门锁的快充算法 / APP 'XX' 版本" maxlength="200" required></div><div class="mb-3"><label for="contactInfo" class="form-label">联系方式（手机号或微信号）</label><input type="text" id="contactInfo" name="contactInfo" class="form-control" placeholder="手机号或微信号，方便我们快速联系" required></div><div class="text-end"><button type="submit" class="btn btn-primary">提交询问 — 我们 1 个工作日内回复</button></div></form></div><div class="col-lg-5 text-center align-self-center"><p class="mb-2 fw-bold">或扫码立即加顾问微信</p><img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid mb-2" style="max-width:200px;"><p class="mb-1">电话：<a href="tel:010-82696906">010-8269 6906</a></p><p class="small text-muted mb-0">扫码后请在消息首句写明“时效询问 + 目标日期”。</p></div></div></div>
+          <div class="modal-body"><div class="row"><div class="col-lg-7 mb-3 mb-lg-0"><form id="timeQueryForm" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST"><div class="mb-3"><label for="targetDate" class="form-label">目标日期（您希望在此日期前拿到证书）</label><input type="date" id="targetDate" name="目标日期" class="form-control" required></div><div class="mb-3"><label for="shortDesc" class="form-label">一句话描述（技术/作品/商标名称）</label><input type="text" id="shortDesc" name="简述" class="form-control" placeholder="例如：智能门锁的快充算法 / APP 'XX' 版本" maxlength="200" required></div><div class="mb-3"><label for="contactInfo" class="form-label">联系方式（手机号或微信号）</label><input type="text" id="contactInfo" name="联系方式" class="form-control" placeholder="手机号或微信号，方便我们快速联系" required></div><div class="text-end"><button type="submit" class="btn btn-primary">提交询问 — 我们 1 个工作日内回复</button></div></form></div><div class="col-lg-5 text-center align-self-center"><p class="mb-2 fw-bold">或扫码立即加顾问微信</p><img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid mb-2" style="max-width:200px;"><p class="mb-1">电话：<a href="tel:010-82696906">010-8269 6906</a></p><p class="small text-muted mb-0">扫码后请在消息首句写明“时效询问 + 目标日期”。</p></div></div></div>
         </div>
       </div>
     </div>
@@ -115,43 +123,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+      // ***** SCRIPT MODIFICATION START *****
       (function(){
-        // Universal modal script
+        // This part is for the date picker minimum date in the modal, it can remain.
         var today=new Date().toISOString().split('T')[0];
         var dateInput=document.getElementById('targetDate');
         if(dateInput){dateInput.min=today;}
-        var timeQueryForm=document.getElementById('timeQueryForm');
-        if(timeQueryForm){timeQueryForm.addEventListener('submit',function(event){event.preventDefault();var targetDate=document.getElementById('targetDate').value.trim();var desc=document.getElementById('shortDesc').value.trim();var contact=document.getElementById('contactInfo').value.trim();if(!targetDate||!desc||!contact){alert('请完整填写目标日期、简述与联系方式，以便我们快速回复。');return;}var subject='专速通 - 时效询问';var body='目标日期: '+targetDate+'\n'+'简述: '+desc+'\n'+'联系方式: '+contact+'\n'+'来源: 网站（InventMain）';window.location.href='mailto:contact@inventmain.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);try{var modalEl=document.getElementById('timeQueryModal');var modal=bootstrap.Modal.getInstance(modalEl);if(modal){modal.hide();}}catch(err){console.error("Modal closing failed:",err);}setTimeout(function(){alert('我们已收到您的询问（或已尝试打开您的邮件客户端）。若邮件客户端未自动打开，请放心，我们的顾问也会尽快通过您填写的联系方式主动与您联系。');},400);});}
         
-        // Contact form script
-        var contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                var name = document.getElementById('name').value.trim();
-                var phone = document.getElementById('phone').value.trim();
-                var interest = document.getElementById('interest').value;
-                var message = document.getElementById('message').value.trim();
-
-                if (!name || !phone || interest === '请选择...') {
-                    alert('请完整填写您的姓名、联系电话和感兴趣的服务。');
-                    return;
-                }
-                
-                var subject = '专速通 - 在线咨询 from ' + name;
-                var body = '姓名: ' + name + '\n' +
-                           '电话: ' + phone + '\n' +
-                           '感兴趣的服务: ' + interest + '\n' +
-                           '留言: ' + message + '\n\n' +
-                           '来源: 网站（联系我们页面）';
-
-                window.location.href = 'mailto:contact@inventmain.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-                setTimeout(function(){
-                    alert('感谢您的咨询！我们已尝试打开您的邮件客户端。若未自动打开，我们的顾问也会尽快通过您填写的电话与您联系。');
-                }, 400);
-            });
-        }
+        // The script for the contactForm is no longer needed
+        // The script for the timeQueryForm is also no longer needed
       })();
+      // ***** SCRIPT MODIFICATION END *****
     </script>
 </body>
 </html>
