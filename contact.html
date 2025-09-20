@@ -10,15 +10,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root { --primary-color: #007bff; --secondary-color: #ffc107; --dark-color: #212529; --light-color: #ffffff; --gray-color: #f8f9fa; --text-color: #343a40; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.7; color: var(--text-color); padding-top: 88px; }
-        .navbar { background: #000; padding: 1rem 1.5rem; } .navbar-brand { color: var(--light-color) !important; font-size: 1.5rem; font-weight: bold; } .navbar .nav-link { color: rgba(255,255,255,0.8); font-weight: 500; } .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--secondary-color); } .nav-contact-btn { padding: 0.5rem 1.5rem !important; border-radius: 5px; background: var(--primary-color); color: var(--light-color) !important; font-weight: bold; margin-left: 1rem; } .nav-contact-btn:hover { background: #0056b3; }
-        .page-header { padding: 80px 0; background-color: var(--gray-color); text-align: center; } .page-header h1 { font-weight: 700; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.7; color: var(--text-color); }
+        .navbar { background: #000; padding: 1rem 1.5rem; }
+        .navbar-brand { color: var(--light-color) !important; font-size: 1.5rem; font-weight: bold; }
+        .navbar-brand .logo-main { color: var(--secondary-color); }
+        .navbar .nav-link { color: rgba(255,255,255,0.8); font-weight: 500; }
+        .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--secondary-color); }
+        .nav-contact-btn { padding: 0.5rem 1.5rem !important; border-radius: 5px; background: var(--primary-color); color: var(--light-color) !important; font-weight: bold; margin-left: 1rem; }
+        .nav-contact-btn:hover { background: #0056b3; }
+        .page-header { padding: 80px 0; background-color: var(--gray-color); text-align: center; margin-top: 88px; } .page-header h1 { font-weight: 700; }
         .contact-section { padding: 80px 0; }
         .contact-info-item { display: flex; align-items: flex-start; margin-bottom: 1.5rem; font-size: 1.1rem; }
         .contact-info-item .icon { font-size: 1.5rem; color: var(--primary-color); min-width: 40px; }
         .contact-info-item a { text-decoration: none; color: var(--text-color); } .contact-info-item a:hover { color: var(--primary-color); }
         footer { background-color: #1C1C1C; color: #ccc; padding: 40px 0; text-align: center; font-size: 0.9rem; } footer p, footer a { margin: 5px 0; color: #ccc; text-decoration: none; } footer a:hover { text-decoration: underline; } footer .footer-brand-tagline { font-weight: bold; color: #fff; margin-bottom: 15px; }
-        @media (max-width: 991.98px) { .nav-contact-btn { margin-left: 0; margin-top: 1rem; text-align: center; display: block; } }
+        .floating-contact-btn { position: fixed; right: 25px; bottom: 25px; z-index: 1050; }
+        .floating-contact-btn button { background: #00C853; border: none; border-radius: 50%; width: 60px; height: 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); color: #fff; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+        
+        /* Responsive/Multi-device Adaptation */
+        @media (max-width: 991.98px) { 
+            .nav-contact-btn { margin-left: 0; margin-top: 1rem; text-align: center; display: block; } 
+            .page-header { margin-top: 72px; } 
+        }
     </style>
     <script type="application/ld+json">
     { "@context": "https://schema.org", "@type": "ContactPage", "mainEntity": { "@type": "LocalBusiness", "name": "专速通 (InventMain)", "telephone": "+86-010-8269-6906", "email": "contact@inventmain.com", "address": { "@type": "PostalAddress", "streetAddress": "王府井大街219号王府国际中心7层", "addressLocality": "北京市", "postalCode": "100006", "addressCountry": "CN" } } }
@@ -28,7 +41,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="index.html">专速通 InventMain</a>
+                <a class="navbar-brand" href="index.html">专速通 Invent<span class="logo-main">Main</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto align-items-center">
@@ -63,7 +76,7 @@
                 </div>
                 <div class="col-lg-6">
                     <h3 class="mb-4">在线咨询</h3>
-                    <form>
+                    <form id="contactForm">
                         <div class="mb-3"><label for="name" class="form-label">您的姓名</label><input type="text" class="form-control" id="name" required></div>
                         <div class="mb-3"><label for="phone" class="form-label">联系电话</label><input type="tel" class="form-control" id="phone" required></div>
                         <div class="mb-3">
@@ -85,9 +98,60 @@
             <p>北京启坤知识产权代理有限公司 | 国家知识产权局注册专利代理机构 机构代码：11655</p>
             <p>地址: 北京市东城区王府井大街219号王府国际中心7层</p>
             <p>联系电话: <a href="tel:010-82696906">010-8269 6906</a> | 邮箱: <a href="mailto:contact@inventmain.com">contact@inventmain.com</a></p>
-            <p class="mb-0">&copy; 2025 | <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备19020611号-1</a></p>
+            <p class="mb-0">&copy; 2025 | <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">京ICP备19020611号-1</a></p>
         </div>
     </footer>
+    
+    <div class="modal fade" id="timeQueryModal" tabindex="-1" aria-labelledby="timeQueryModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title" id="timeQueryModalLabel">查询时效 — 填写目标日期或直接扫码联系我们</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button></div>
+          <div class="modal-body"><div class="row"><div class="col-lg-7 mb-3 mb-lg-0"><form id="timeQueryForm" novalidate><div class="mb-3"><label for="targetDate" class="form-label">目标日期（您希望在此日期前拿到证书）</label><input type="date" id="targetDate" name="targetDate" class="form-control" required></div><div class="mb-3"><label for="shortDesc" class="form-label">一句话描述（技术/作品/商标名称）</label><input type="text" id="shortDesc" name="shortDesc" class="form-control" placeholder="例如：智能门锁的快充算法 / APP 'XX' 版本" maxlength="200" required></div><div class="mb-3"><label for="contactInfo" class="form-label">联系方式（手机号或微信号）</label><input type="text" id="contactInfo" name="contactInfo" class="form-control" placeholder="手机号或微信号，方便我们快速联系" required></div><div class="text-end"><button type="submit" class="btn btn-primary">提交询问 — 我们 1 个工作日内回复</button></div></form></div><div class="col-lg-5 text-center align-self-center"><p class="mb-2 fw-bold">或扫码立即加顾问微信</p><img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid mb-2" style="max-width:200px;"><p class="mb-1">电话：<a href="tel:010-82696906">010-8269 6906</a></p><p class="small text-muted mb-0">扫码后请在消息首句写明“时效询问 + 目标日期”。</p></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="floating-contact-btn"><button id="open-wechat-modal" aria-label="添加微信咨询" data-bs-toggle="modal" data-bs-target="#wechatModal"><i class="bi bi-wechat"></i></button></div>
+    <div class="modal fade" id="wechatModal" tabindex="-1" aria-labelledby="wechatModalLabel" aria-hidden="true"><div class="modal-dialog modal-sm modal-dialog-centered"><div class="modal-content text-center p-3"><div class="modal-header border-0"><h5 class="modal-title w-100" id="wechatModalLabel">扫码添加专速通顾问</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid"><p class="small mt-2 mb-0">或拨打 <a href="tel:010-82696906">010-8269 6906</a></p></div></div></div></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      (function(){
+        // Universal modal script
+        var today=new Date().toISOString().split('T')[0];
+        var dateInput=document.getElementById('targetDate');
+        if(dateInput){dateInput.min=today;}
+        var timeQueryForm=document.getElementById('timeQueryForm');
+        if(timeQueryForm){timeQueryForm.addEventListener('submit',function(event){event.preventDefault();var targetDate=document.getElementById('targetDate').value.trim();var desc=document.getElementById('shortDesc').value.trim();var contact=document.getElementById('contactInfo').value.trim();if(!targetDate||!desc||!contact){alert('请完整填写目标日期、简述与联系方式，以便我们快速回复。');return;}var subject='专速通 - 时效询问';var body='目标日期: '+targetDate+'\n'+'简述: '+desc+'\n'+'联系方式: '+contact+'\n'+'来源: 网站（InventMain）';window.location.href='mailto:contact@inventmain.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);try{var modalEl=document.getElementById('timeQueryModal');var modal=bootstrap.Modal.getInstance(modalEl);if(modal){modal.hide();}}catch(err){console.error("Modal closing failed:",err);}setTimeout(function(){alert('我们已收到您的询问（或已尝试打开您的邮件客户端）。若邮件客户端未自动打开，请放心，我们的顾问也会尽快通过您填写的联系方式主动与您联系。');},400);});}
+        
+        // Contact form script
+        var contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                var name = document.getElementById('name').value.trim();
+                var phone = document.getElementById('phone').value.trim();
+                var interest = document.getElementById('interest').value;
+                var message = document.getElementById('message').value.trim();
+
+                if (!name || !phone || interest === '请选择...') {
+                    alert('请完整填写您的姓名、联系电话和感兴趣的服务。');
+                    return;
+                }
+                
+                var subject = '专速通 - 在线咨询 from ' + name;
+                var body = '姓名: ' + name + '\n' +
+                           '电话: ' + phone + '\n' +
+                           '感兴趣的服务: ' + interest + '\n' +
+                           '留言: ' + message + '\n\n' +
+                           '来源: 网站（联系我们页面）';
+
+                window.location.href = 'mailto:contact@inventmain.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                setTimeout(function(){
+                    alert('感谢您的咨询！我们已尝试打开您的邮件客户端。若未自动打开，我们的顾问也会尽快通过您填写的电话与您联系。');
+                }, 400);
+            });
+        }
+      })();
+    </script>
 </body>
 </html>

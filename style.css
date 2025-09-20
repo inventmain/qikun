@@ -81,4 +81,21 @@
     font-size: 2.5rem; /* 尺寸比服务图标稍小，形成主次对比 */
     /* 其他样式保持不变 */
 }
+
+/* 放到你的 CSS（已有样式表中） */
+.hero-kpi { display:flex; flex-direction:column; gap:0.45rem; align-items:center; justify-content:center; margin:0 auto; max-width:900px; }
+.hero-kpi .kpi-item { font-weight:600; color:#fff; text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
+
+/* 关键数字更强调 */
+.hero-kpi .kpi-num { font-weight:800; font-size:1.05em; color:#fff; }
+
+/* 响应式字体，desktop 更大，mobile 自动缩小 */
+.stacked-kpi { font-size: clamp(1.05rem, 2.6vw, 1.6rem); line-height:1.1; }
+
+/* 数字在大屏上更突出 */
+@media(min-width:992px){
+  .hero-kpi .kpi-num { font-size:1.15em; }
+  .stacked-kpi { font-size: clamp(1.2rem, 2.6vw, 1.8rem); }
+}
+
 </style>
