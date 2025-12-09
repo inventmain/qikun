@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专速通 — 快速拿证，风险可控 | 专利加急申请服务</title>
+    <meta name="description" content="专速通(InventMain)提供快速可量化的知识产权拿证服务。发明专利最快6个月获批，不授权按合同退款。团队含前国知局审查员，专业可查。">
+    <meta name="keywords" content="专利快速授权, 快速拿证, 风险可控, 专利申请, 不授权退款, 前审查员, 专速通, InventMain">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.inventmain.com/">
+    <meta property="og:title" content="专速通 — 快速拿证，风险可控">
+    <meta property="og:description" content="发明专利最快2个月获批，不授权按合同退款。团队含前国知局审查员，专业可查。">
+    <meta property="og:image" content="https://www.inventmain.com/assets/images/social-share-card.jpg"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.inventmain.com/">
+    <meta property="twitter:title" content="专速通 — 快速拿证，风险可控">
+    <meta property="twitter:description" content="发明专利最快6个月获批，不授权按合同退款。团队含前国知局审查员，专业可查。">
+    <meta property="twitter:image" content="https://www.inventmain.com/assets/images/social-share-card.jpg">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        :root { --primary-color: #007bff; --secondary-color: #ffc107; --dark-color: #212529; --light-color: #ffffff; --gray-color: #f8f9fa; --text-color: #343a40; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.7; color: var(--text-color); }
+        .navbar { background: #000; padding: 1rem 1.5rem; } 
+        .navbar-brand { color: var(--light-color) !important; font-size: 1.5rem; font-weight: bold; }
+        .navbar-brand .logo-main { color: var(--secondary-color); }
+        .navbar .nav-link { color: rgba(255,255,255,0.8); font-weight: 500; } 
+        .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--secondary-color); } 
+        .nav-contact-btn { padding: 0.5rem 1.5rem !important; border-radius: 5px; background: var(--primary-color); color: var(--light-color) !important; font-weight: bold; margin-left: 1rem; } 
+        .nav-contact-btn:hover { background: #0056b3; }
+        .hero { position: relative; display: flex; align-items: center; justify-content: center; min-height: 70vh; color: var(--light-color); text-align: center; }
+        .hero-media { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .hero-media img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); }
+        .hero .container { position: relative; z-index: 2; padding-top: 5rem; padding-bottom: 5rem; }
+        .hero h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 1.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+        .hero .hero-kpi { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; max-width: 900px; margin: 0 auto 2rem; font-weight: 500; font-size: clamp(1.1rem, 3vw, 1.8rem); line-height: 1.3; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+        .hero .hero-kpi .kpi-num { font-weight: 800; font-size: 1.05em; color: var(--secondary-color); }
+        .hero .risk-notice { font-size: 0.9rem; color: rgba(255,255,255,0.75); margin: 0 auto 2.5rem; max-width: 700px; }
+        .hero .btn { font-weight: 700; padding: 0.8rem 2.2rem; border-radius: 8px; }
+        .hero .btn-warning { color: #000; background-color: var(--secondary-color); border-color: var(--secondary-color); }
+        section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; } .section-title h2 { font-size: 2.5rem; font-weight: 700; } .section-title p { font-size: 1.1rem; color: #6c757d; max-width: 700px; margin: 0 auto; }
+        .commitment-card { background: var(--gray-color); border-radius: 10px; padding: 30px; text-align: center; height: 100%; border: 1px solid #e9ecef; }
+        .commitment-card .icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; }
+        .social-proof { background-color: #fff; } .client-logos img { max-height: 40px; filter: grayscale(100%); opacity: 0.7; transition: all 0.3s; margin: 15px; } .client-logos img:hover { filter: grayscale(0%); opacity: 1; }
+        .process-step { text-align: center; position: relative; } .process-step .step-icon { width: 80px; height: 80px; background-color: var(--gray-color); border: 2px solid var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: var(--primary-color); font-size: 2.5rem; font-weight: bold; } .process-step h5 { font-weight: bold; color: var(--dark-color); } .process-step p { font-size: 0.9rem; color: #6c757d; } .process-step .step-arrow { position: absolute; top: 40px; right: -25%; transform: translateY(-50%); font-size: 2rem; color: #ccc; }
+        .faq-section { background-color: var(--gray-color); } .accordion-button:not(.collapsed) { color: var(--light-color); background-color: var(--primary-color); }
+        .floating-contact-btn { position: fixed; right: 25px; bottom: 25px; z-index: 1050; }
+        .floating-contact-btn button { background: #00C853; border: none; border-radius: 50%; width: 60px; height: 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); color: #fff; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+        footer { background-color: #1C1C1C; color: #ccc; padding: 40px 0; text-align: center; font-size: 0.9rem; } footer p, footer a { margin: 5px 0; color: #ccc; text-decoration: none; } footer a:hover { text-decoration: underline; } footer .footer-brand-tagline { font-weight: bold; color: #fff; margin-bottom: 15px; }
+        @media (max-width: 991.98px) { .nav-contact-btn { margin-left: 0; margin-top: 1rem; text-align: center; display: block; } }
+        @media (max-width: 767px) { .process-step .step-arrow { transform: rotate(90deg) translateX(50%); right: 50%; top: auto; bottom: -40px; } .process-step { margin-bottom: 50px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">专速通 Invent<span class="logo-main">Main</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item"><a class="nav-link" href="index.html">首页</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">核心价值</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="ip-capital.html">知识产权实缴</a></li>
+                                <li><a class="dropdown-item" href="gov-subsidies.html">政府资质与补贴</a></li>
+                                <li><a class="dropdown-item" href="academic-advancement.html">职称 & 学位申请</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="services.html">服务与价格</a></li>
+                        <li class="nav-item"><a class="nav-link" href="partners.html">渠道合作</a></li>
+                        <li class="nav-item"><a class="nav-link" href="faq.html">常见问题</a></li>
+                        <li class="nav-item"><a class="nav-link nav-contact-btn" href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+<main>
+<section class="hero" role="banner" aria-labelledby="hero-title">
+  <div class="hero-media" aria-hidden="true">
+    <picture>
+      <source srcset="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1600&auto=format&fit=crop&q=60" type="image/jpeg">
+      <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1200&auto=format&fit=crop&q=60" alt="专业的办公桌面背景" style="width:100%;height:100%;object-fit:cover;display:block;">
+    </picture>
+    <div class="hero-overlay"></div>
+  </div>
+
+<div class="container">
+        <div style="margin-bottom: 20px;">
+            <span style="background: linear-gradient(90deg, #d93025, #ff6f61); color: #fff; padding: 5px 15px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">
+                🔥 启坤·专速通™️ 冲量大促
+            </span>
+        </div>
+
+        <h1 style="margin-bottom: 10px;">
+            年末冲量，<span style="color: #ffeb3b; border-bottom: 3px solid #d93025;">全线五折</span>
+        </h1>
+        <p class="subtitle" style="margin-bottom: 40px;">击穿行业底价，标准化极速递交。</p>
+        
+        <a href="#" class="open-contact-modal-trigger" style="display: block; text-decoration: none; max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.98); border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); overflow: hidden; transition: transform 0.3s;">
+            
+            <div style="padding: 40px 40px 30px 40px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <div>
+                        <h2 style="text-align: left; margin: 0; font-size: 2.2em; color: #333;">发明专利 <span style="color: #d93025;">5折</span></h2>
+                        <p style="color: #666; margin: 5px 0 0 0;">Invention Patent Accelerated</p>
+                    </div>
+                    <div style="background: #d93025; color: #fff; padding: 5px 15px; border-radius: 50px; font-weight: bold; font-size: 0.9em;">
+                        <i class="fas fa-fire"></i> 爆款推荐
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    
+                    <div style="flex: 1.5; background: #fff0f0; border: 1px solid #ffcdd2; border-radius: 8px; padding: 20px; position: relative;">
+                        <div style="position: absolute; top: -10px; left: 15px; background: #d93025; color: #fff; font-size: 0.75em; padding: 2px 8px; border-radius: 4px;">不授权退款</div>
+                        <div style="font-weight: bold; color: #333; font-size: 1.1em; margin-bottom: 5px;">保授权加急申请</div>
+                        <div>
+                            <span style="color: #d93025; font-size: 2.2em; font-weight: bold; line-height: 1;">¥6,000</span>
+                            <span style="text-decoration: line-through; color: #999; margin-left: 8px;">¥12,000</span>
+                        </div>
+                        <div style="font-size: 0.85em; color: #d93025; margin-top: 5px;">* 也就是退款 6000 元</div>
+                    </div>
+
+                    <div style="flex: 1; border: 1px dashed #ddd; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <div style="font-weight: bold; color: #555; font-size: 1.1em; margin-bottom: 5px;">标准申请</div>
+                        <div>
+                            <span style="color: #333; font-size: 1.8em; font-weight: bold; line-height: 1;">¥3,000</span>
+                            <span style="text-decoration: line-through; color: #999; margin-left: 8px;">¥6,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 20px 40px; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+                
+                <div style="flex: 1; display: flex; align-items: center; border-right: 1px solid #e0e0e0; padding-right: 20px;">
+                    <div style="margin-right: 15px;">
+                        <div style="font-weight: bold; font-size: 1.1em; color: #333;">实用新型</div>
+                        <div style="font-size: 0.8em; color: #888;">Utility Model</div>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-color); font-size: 1.5em; font-weight: bold;">¥1,500</span>
+                        <span style="text-decoration: line-through; color: #aaa; font-size: 0.9em;">¥3,000</span>
+                    </div>
+                </div>
+
+                <div style="flex: 1; display: flex; align-items: center; padding-left: 30px;">
+                    <div style="margin-right: 15px;">
+                        <div style="font-weight: bold; font-size: 1.1em; color: #333;">外观设计</div>
+                        <div style="font-size: 0.8em; color: #888;">Design Patent</div>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-color); font-size: 1.5em; font-weight: bold;">¥750</span>
+                        <span style="text-decoration: line-through; color: #aaa; font-size: 0.9em;">¥1,500</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #333; color: #fff; font-size: 0.85em; text-align: center; padding: 8px;">
+                点击立即咨询顾问 · 获取五折名额
+            </div>
+        </a>
+
+    </div>
+
+  <div class="container">
+    <h1 id="hero-title">专速通 — 快速拿证，风险可控</h1>
+
+    <div class="hero-kpi">
+      <span class="kpi-item">发明专利 <strong class="kpi-num">最快 3 个月</strong> 获批</span>
+      <span class="kpi-item">软件著作权 <strong class="kpi-num">最快 3 个工作日</strong> 登记</span>
+      <span class="kpi-item">不授权 <strong class="kpi-num">按合同退款</strong></span>
+    </div>
+
+    <p class="risk-notice">
+      若您想知道能否在某个日期前拿证，请点击“立即查询时效”填写目标日期，我们将尽快回复。
+    </p>
+
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center" role="group" aria-label="主要操作">
+      <button class="btn btn-warning btn-lg px-4" id="openTimeQueryBtn" data-bs-toggle="modal" data-bs-target="#timeQueryModal">
+        立即查询时效
+      </button>
+
+      <button class="btn btn-outline-light btn-lg px-4" id="openWechatBtn" data-bs-toggle="modal" data-bs-target="#wechatModal">
+        扫码加微信 / 电话咨询
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="timeQueryModal" tabindex="-1" aria-labelledby="timeQueryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="timeQueryModalLabel">查询时效 — 填写目标日期或直接扫码联系我们</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-7 mb-3 mb-lg-0">
+            <form id="timeQueryForm" action="https://formspree.io/f/mjkenazp" method="POST"> 
+              <div class="mb-3">
+                <label for="targetDate" class="form-label">目标日期（您希望在此日期前拿到证书）</label>
+                <input type="date" id="targetDate" name="目标日期" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label for="shortDesc" class="form-label">一句话描述（技术/作品/商标名称）</label>
+                <input type="text" id="shortDesc" name="简述" class="form-control" placeholder="例如：智能门锁的快充算法 / APP 'XX' 版本" maxlength="200" required>
+              </div>
+              <div class="mb-3">
+                <label for="contactInfo" class="form-label">联系方式（手机号或微信号）</label>
+                <input type="text" id="contactInfo" name="联系方式" class="form-control" placeholder="手机号或微信号，方便我们快速联系" required>
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-primary">提交询问 — 我们 1 个工作日内回复</button>
+              </div>
+            </form>
+            </div>
+          <div class="col-lg-5 text-center align-self-center">
+            <p class="mb-2 fw-bold">或扫码立即加顾问微信</p>
+            <img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid mb-2" style="max-width:200px;">
+            <p class="mb-1">电话：<a href="tel:010-82696906">010-8269 6906</a></p>
+            <p class="small text-muted mb-0">扫码后请在消息首句写明“时效询问 + 目标日期”。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="commitments" class="bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 d-flex align-items-stretch"><div class="commitment-card"><div class="icon"><i class="bi bi-graph-up-arrow"></i></div><h4 class="mt-3">快速可量化</h4><p>明确时间承诺并提供官方受理回执，让速度不再是空谈。</p></div></div>
+            <div class="col-lg-4 d-flex align-items-stretch"><div class="commitment-card"><div class="icon"><i class="bi bi-shield-check"></i></div><h4 class="mt-3">风险可控</h4><p>签约即有保障：不授权按合同退款，您的投入风险我们共同承担。</p></div></div>
+            <div class="col-lg-4 d-flex align-items-stretch"><div class="commitment-card"><div class="icon"><i class="bi bi-person-check"></i></div><h4 class="mt-3">专业可查</h4><p>团队含前国知局审查员，真实授权案例与公司备案信息均可验证。</p></div></div>
+        </div>
+    </div>
+</section>
+        
+<section class="social-proof" hidden>
+    <div class="container">
+        <div class="section-title"><h2>众多创新企业的信赖之选</h2></div>
+        <div class="client-logos d-flex flex-wrap justify-content-center align-items-center">
+            <img src="https://via.placeholder.com/150x60.png?text=CLIENT+LOGO" alt="客户Logo 1">
+            <img src="https://via.placeholder.com/150x60.png?text=CLIENT+LOGO" alt="客户Logo 2">
+            <img src="https://via.placeholder.com/150x60.png?text=CLIENT+LOGO" alt="客户Logo 3">
+            <img src="https://via.placeholder.com/150x60.png?text=CLIENT+LOGO" alt="客户Logo 4">
+            <img src="https://via.placeholder.com/150x60.png?text=CLIENT+LOGO" alt="客户Logo 5">
+        </div>
+    </div>
+</section>
+
+<section id="value-propositions" class="bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>专速通可以帮助您</h2>
+            <p>快速获得专利证书，实现关键价值。</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="commitment-card">
+                    <div class="icon"><i class="bi bi-bank"></i></div>
+                    <h4 class="mt-3">知识产权实缴</h4>
+                    <p>将专利作为无形资产注入公司，合规、低成本地增加注册资本，彰显公司技术实力，吸引投资。</p>
+                    <a href="ip-capital.html" class="btn btn-outline-primary mt-auto">了解详情</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="commitment-card">
+                    <div class="icon"><i class="bi bi-award"></i></div>
+                    <h4 class="mt-3">政府资质与补贴</h4>
+                    <p>专利是<strong>申报高新技术企业、专精特新甚至IPO</strong>等资质的核心指标。快速拿证，助您尽早享受百万级政府补贴和税收优惠。</p>
+                    <a href="gov-subsidies.html" class="btn btn-outline-primary mt-auto">了解详情</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="commitment-card">
+                    <div class="icon"><i class="bi bi-mortarboard"></i></div>
+                    <h4 class="mt-3">职称 & 学位申请</h4>
+                    <p>工程师、研究人员、医生等可凭发明或实用新型专利评定职称。学生可凭专利在考研、留学、落户等方面获得加分。</p>
+                    <a href="academic-advancement.html" class="btn btn-outline-primary mt-auto">了解详情</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="process">
+    <div class="container">
+        <div class="section-title"><h2>简洁流程</h2><p>只需简单四步，即可开启您的高效拿证之旅。</p></div>
+        <div class="row">
+            <div class="col-md-3"><div class="process-step"><div class="step-icon">1</div><h5>免费初评 (次日内)</h5><p>通过微信或表单提交技术摘要/作品简介。</p><div class="step-arrow d-none d-md-block"><i class="bi bi-arrow-right"></i></div></div></div>
+            <div class="col-md-3"><div class="process-step"><div class="step-icon">2</div><h5>方案确认 (3–7 天)</h5><p>明确时间表、费用及保障，签订正式合同。</p><div class="step-arrow d-none d-md-block"><i class="bi bi-arrow-right"></i></div></div></div>
+            <div class="col-md-3"><div class="process-step"><div class="step-icon">3</div><h5>加速递交与跟进</h5><p>启用预审/优审等通道，并提供实时进度跟踪。</p><div class="step-arrow d-none d-md-block"><i class="bi bi-arrow-right"></i></div></div></div>
+            <div class="col-md-3"><div class="process-step"><div class="step-icon"><i class="bi bi-patch-check-fill"></i></div><h5>授权或退款</h5><p>成功获得授权证书，或按合同约定执行退款保障。</p></div></div>
+        </div>
+    </div>
+</section>
+        
+<section id="faq" class="faq-section">
+    <div class="container">
+        <div class="section-title"><h2>常见问题</h2></div>
+        <div class="row justify-content-center"><div class="col-lg-8">
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">Q1: “专利授权全风险代理”和“普通专利代理”有什么区别？</button></h2><div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion"><div class="accordion-body"><strong>A:</strong> 主要区别在于我们提供了<strong>速度保障</strong>和<strong>结果保障</strong>。全风险代理包含官方加急审查通道，且我们承诺若最终未授权，将100%退还服务费。</div></div></div>
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Q2: “100%退还服务费”也包括官费吗？</button></h2><div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body"><strong>A:</strong> 不包括。官费由国家知识产权局收取，无论是否授权均不退还。但如果您选择“免费再申请一件”的保障方案，第二次申请的官费（减免后）将由我们承担。</div></div></div>
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">Q3: 为什么你们能做到这么快？</button></h2><div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body"><strong>A:</strong> 我们通过两个核心途径实现：一是利用国家知识产权局的<strong>预审或优先审查</strong>等官方加急通道；二是我们由前审查员组成的团队能精准把握审查要点，高质量撰写可减少补正和驳回的几率，从而缩短审查周期。</div></div></div>
+            </div>
+        </div></div>
+    </div>
+</section>
+</main>
+    
+<footer>
+    <div class="container">
+        <p class="footer-brand-tagline">专速通 (InventMain) | 启坤旗下品牌</p>
+        <p>北京启坤知识产权代理有限公司 | 国家知识产权局注册专利代理机构 机构代码：11655</p>
+        <p>地址: 北京市东城区王府井大街219号王府国际中心7层</p>
+        <p>联系电话: <a href="tel:010-82696906">010-8269 6906</a> | 邮箱: <a href="mailto:contact@inventmain.com">contact@inventmain.com</a></p>
+        <p class="mb-0">&copy; 2025 | <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">京ICP备19020611号-1</a></p>
+    </div>
+</footer>
+
+<div class="floating-contact-btn">
+    <button id="open-wechat-modal" aria-label="添加微信咨询" data-bs-toggle="modal" data-bs-target="#wechatModal">
+        <i class="bi bi-wechat"></i>
+    </button>
+</div>
+
+<div class="modal fade" id="wechatModal" tabindex="-1" aria-labelledby="wechatModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content text-center p-3">
+      <div class="modal-header border-0"><h5 class="modal-title w-100" id="wechatModalLabel">扫码添加专速通顾问</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body"><img src="images/微信二维码.jpg" alt="专速通顾问微信二维码" class="img-fluid"><p class="small mt-2 mb-0">或拨打 <a href="tel:010-82696906">010-8269 6906</a></p></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ***** SCRIPT MODIFICATION START *****
+  (function(){
+    // This part is for the date picker minimum date, it can remain.
+    var today = new Date().toISOString().split('T')[0];
+    var dateInput = document.getElementById('targetDate');
+    if (dateInput) {
+        dateInput.min = today;
+    }
+    // The original form submission script that creates a 'mailto:' link is no longer needed
+    // because Formspree will handle the submission.
+  })();
+  // ***** SCRIPT MODIFICATION END *****
+</script>
+
+</body>
+</html>
