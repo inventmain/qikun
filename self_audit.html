@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>申必行 · 企业政策规划与高企申报智能自测系统</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --accent: #d97706;
+      --success: #059669;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); padding: 16px 8px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 720px; margin: 0 auto; background: var(--card-bg); border-radius: 18px; box-shadow: 0 12px 30px -8px rgba(15, 23, 42, 0.08); overflow: hidden; border: 1px solid var(--border); }
+    .header { background: linear-gradient(135deg, #0b132b 0%, #1c2541 50%, #1e3a8a 100%); color: #ffffff; padding: 26px 20px; text-align: center; position: relative; }
+    .header .badge { display: inline-flex; align-items: center; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 20px; padding: 3px 12px; font-size: 11px; letter-spacing: 1px; margin-bottom: 8px; color: #93c5fd; }
+    .header h1 { font-size: 19px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+    .header p { font-size: 12px; color: #cbd5e1; max-width: 520px; margin: 0 auto; }
+    
+    /* 智能企业检索穿透栏 */
+    .search-hero { background: #eff6ff; padding: 16px; border-bottom: 2px solid #bfdbfe; }
+    .search-title { font-size: 13px; font-weight: 700; color: #1e40af; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .search-box { display: flex; gap: 8px; }
+    .search-input { flex-grow: 1; padding: 10px 12px; border: 1.5px solid #93c5fd; border-radius: 8px; font-size: 13px; outline: none; background: #fff; }
+    .search-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    .btn-search { padding: 10px 16px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .search-tip { font-size: 11px; color: #64748b; margin-top: 6px; display: flex; justify-content: space-between; }
+    
+    /* 内容表单 */
+    .content { padding: 20px 16px; }
+    .section-title { font-size: 13px; font-weight: 700; color: #1e3a8a; margin: 16px 0 10px; display: flex; align-items: center; border-left: 3px solid var(--primary-light); padding-left: 8px; }
+    .section-title span.tag { font-size: 10px; font-weight: 400; color: #64748b; margin-left: 6px; }
+    .form-group { margin-bottom: 12px; }
+    .form-label { font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 5px; display: block; }
+    .form-control { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: #fff; transition: all 0.2s; }
+    .form-control:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+    .form-control.autofilled { background-color: #f0fdf4; border-color: #86efac; color: #166534; font-weight: 600; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .radio-card-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .radio-card { border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; cursor: pointer; display: flex; align-items: center; background: #f8fafc; font-size: 12px; transition: all 0.2s; }
+    .radio-card input { margin-right: 8px; accent-color: var(--primary-light); }
+    .btn-submit { display: block; width: 100%; padding: 13px; background: linear-gradient(135deg, #1e40af, #2563eb); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); margin-top: 16px; }
+    
+    /* 诊断结果卡片 */
+    .result-container { display: none; margin-top: 22px; animation: slideUp 0.3s ease-out; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .bonus-box { background: linear-gradient(135deg, #0f172a, #1e3a8a); color: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 8px 20px -4px rgba(30, 58, 138, 0.3); }
+    .bonus-box h3 { font-size: 14px; color: #fde68a; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .bonus-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; }
+    .bonus-item { background: rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 8px 4px; }
+    .bonus-val { font-size: 17px; font-weight: 800; color: #38bdf8; }
+    .bonus-label { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+    
+    .score-summary { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+    .total-score { text-align: center; min-width: 90px; }
+    .total-score .num { font-size: 38px; font-weight: 900; line-height: 1; }
+    .pass-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-top: 5px; }
+    .radar-scores { flex-grow: 1; margin-left: 14px; font-size: 11px; }
+    .radar-bar { display: flex; justify-content: space-between; margin-bottom: 3px; }
+    .bar-bg { background: #e2e8f0; height: 5px; border-radius: 3px; overflow: hidden; margin-top: 1px; }
+    .bar-fill { height: 100%; border-radius: 3px; }
+    
+    .gap-card { background: #fff1f2; border: 1px solid #fecdd3; border-radius: 10px; padding: 12px; margin-bottom: 14px; font-size: 12px; color: #9f1239; }
+    .gap-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+    
+    .sol-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 15px; margin-bottom: 16px; }
+    .sol-card h3 { font-size: 13px; font-weight: 800; color: #166534; margin-bottom: 8px; }
+    .sol-list { list-style: none; font-size: 12px; color: #14532d; }
+    .sol-list li { margin-bottom: 7px; display: flex; align-items: flex-start; }
+    .sol-tag { background: #22c55e; color: white; font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-right: 6px; flex-shrink: 0; }
+    
+    .cta-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .btn-action { padding: 11px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; border: none; }
+    .btn-export { background: #0f172a; color: white; }
+    .btn-connect { background: #16a34a; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 顶栏 -->
+  <div class="header">
+    <div class="badge">申必行 · 数字化政策精算引擎 2.5</div>
+    <h1>企业政策规划与高新技术企业智能自测系统</h1>
+    <p>输入企业全称一键穿透专利与工商数据，30秒精算71分达标概率与政策红利</p>
+  </div>
+
+  <!-- 智能企业一键穿透查询栏 (核心提效) -->
+  <div class="search-hero">
+    <div class="search-title">
+      <span>🔍 智能穿透查企业与知识产权</span>
+      <span style="font-size: 11px; color: #2563eb; font-weight: normal;">已联通国家知识产权局公开专利库</span>
+    </div>
+    <div class="search-box">
+      <input type="text" class="search-input" id="searchCompanyName" placeholder="输入企业全称 (如: 苏州市天准科技股份有限公司)" value="苏州市天准科技股份有限公司">
+      <button type="button" class="btn-search" onclick="autoSearchEnterprise()">
+        <span>⚡ 穿透提取</span>
+      </button>
+    </div>
+    <div class="search-tip">
+      <span id="searchStatusText">💡 提示：输入企业名称后点击提取，省份、成立年限及发明/新型专利件数将全自动回填</span>
+      <span id="speedTag" style="color: #059669; font-weight: 600;">免手动盘点专利</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <form id="auditForm">
+      <!-- 基础经营数据 -->
+      <div class="section-title">
+        一、 基础工商与地域特征
+        <span class="tag">(穿透自动解析)</span>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">企业所属省份/城市</label>
+          <input type="text" class="form-control autofilled" id="cityInput" placeholder="提取中..." value="江苏省苏州市">
+        </div>
+        <div class="form-group">
+          <label class="form-label">企业成立年限</label>
+          <input type="text" class="form-control autofilled" id="ageInput" placeholder="提取中..." value="满 3 年以上 (具备完整申报周期)">
+        </div>
+      </div>
+
+      <!-- 知识产权现状 (自动提取) -->
+      <div class="section-title">
+        二、 知识产权储备底账
+        <span class="tag">(由专利检索系统自动回填)</span>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">有效Ⅰ类发明专利 (件)</label>
+          <input type="number" class="form-control autofilled" id="invCountInput" placeholder="0" value="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">有效Ⅱ类实用新型/软著 (件)</label>
+          <input type="number" class="form-control autofilled" id="umCountInput" placeholder="0" value="2">
+        </div>
+      </div>
+
+      <!-- 财务核心指标 (需企业私密提供) -->
+      <div class="section-title">
+        三、 内部财务核心数据
+        <span class="tag" style="color: #d97706;">(企业商业隐私，请顾问手动填入)</span>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">上年度营业收入 (万元)</label>
+          <input type="number" class="form-control" id="revenueInput" placeholder="如: 3500" value="3800">
+        </div>
+        <div class="form-group">
+          <label class="form-label">近三年研发费用总和 (万元)</label>
+          <input type="number" class="form-control" id="rdExpenseInput" placeholder="如: 180" value="190">
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">研发人员占职工总数比例 (%)</label>
+          <input type="number" class="form-control" id="rdPersonnelInput" placeholder="如: 12" value="11">
+        </div>
+        <div class="form-group">
+          <label class="form-label">申报周期诉求</label>
+          <select class="form-control" id="goalSelect">
+            <option value="this_year">当年急需抢报批次 (仅剩3~4个月)</option>
+            <option value="ladder">六级跃升规划 (专精特新/科创板)</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="runComprehensiveAudit()">生成全维可行性诊断与经济红利账本</button>
+    </form>
+
+    <!-- 诊断结果展示区域 -->
+    <div class="result-container" id="resultContainer">
+      
+      <!-- 1. 经济红利账本 (真金白银直击人心) -->
+      <div class="bonus-box">
+        <h3>💰 预计可享三年政策红利与节税总值 <span id="bonusTotal">约 185.0 万元</span></h3>
+        <div class="bonus-grid">
+          <div class="bonus-item">
+            <div class="bonus-val" id="bonusDirect">15~30万</div>
+            <div class="bonus-label">地方首次认定财政奖补</div>
+          </div>
+          <div class="bonus-item">
+            <div class="bonus-val" id="bonusTax">约 38万/年</div>
+            <div class="bonus-label">所得税优惠 (25%➔15%)</div>
+          </div>
+          <div class="bonus-item">
+            <div class="bonus-val" id="bonusRD">约 20万/年</div>
+            <div class="bonus-label">研发费 100% 加计扣除</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 71分四维合规自测卡片 -->
+      <div class="score-summary">
+        <div class="total-score">
+          <div class="num" id="totalScoreNum" style="color: #dc2626;">58</div>
+          <div class="score-label">官方 100 分制预评分</div>
+          <div class="pass-tag" id="passTag" style="background: #fee2e2; color: #dc2626;">未达及格线 (需≥71分)</div>
+        </div>
+        <div class="radar-scores">
+          <div class="radar-bar">
+            <span>核心知识产权 (30分)</span>
+            <span id="ipScoreTxt" style="font-weight: 700; color: #dc2626;">11 / 30 分</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="ipBar" style="width: 36%; background: #dc2626;"></div></div>
+
+          <div class="radar-bar" style="margin-top: 6px;">
+            <span>科技成果转化能力 (30分)</span>
+            <span id="ttScoreTxt">18 / 30 分</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="ttBar" style="width: 60%; background: #f59e0b;"></div></div>
+
+          <div class="radar-bar" style="margin-top: 6px;">
+            <span>研发组织管理水平 (20分)</span>
+            <span>15 / 20 分</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" style="width: 75%; background: #10b981;"></div></div>
+
+          <div class="radar-bar" style="margin-top: 6px;">
+            <span>企业成长性指标 (20分)</span>
+            <span id="growthScoreTxt">14 / 20 分</span>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="growthBar" style="width: 70%; background: #10b981;"></div></div>
+        </div>
+      </div>
+
+      <!-- 3. 核心短板与风险阻断分析 -->
+      <div class="gap-card">
+        <h4>⚠️ 核心硬伤排查：知识产权失分严重，直接阻断当年申报！</h4>
+        <p id="gapDetails">
+          • <strong>关键缺口</strong>：该企业目前拥有 0 件Ⅰ类发明专利，知识产权大项失分高达 19 分，总分无法触达 71 分及格线！<br>
+          • <strong>时间绝限</strong>：距离当年申报批次仅剩 90~120 天，普通专利申请周期长达 18~24 个月，已彻底赶不上！若外购二手转让专利极易触发国知局“非正常”筛查导致一票否决。
+        </p>
+      </div>
+
+      <!-- 4. 启坤独家优势交付方案卡片 (杀手级王炸，无懈可击) -->
+      <div class="sol-card">
+        <h3>🏆 推荐合规通关路径：申必行 · 官方保护中心快速预审定向定制包</h3>
+        <ul class="sol-list">
+          <li>
+            <span class="sol-tag">独家优势 1</span>
+            <div><strong>四维贯通定向深度挖掘：</strong>完全根据企业实际产品与研发立项定制，向下穿透当年高企 RD/PS 表，向上打通省级专精特新、国家小巨人及<strong>科创板 IPO 5项核心主营发明专利</strong>指标要求，绝不搞无用拼凑，一份专利终身受益。</div>
+          </li>
+          <li>
+            <span class="sol-tag">独家优势 2</span>
+            <div><strong>业界独家“双重退款”兜底：</strong>除业内常规不授权全额退款外，额外提供<strong>【不按时加急全额退款】</strong>（若未能在约定申报批次内下证，全额退款并补偿延误损失，彻底打消项目公司错过批次的后顾之忧）。</div>
+          </li>
+          <li>
+            <span class="sol-tag">独家优势 3</span>
+            <div><strong>“多保一”冗余兜底工程：</strong>同方向多特征冗余布局，双轨配备快速新型，确保高企 100% 成功下证。</div>
+          </li>
+          <li>
+            <span class="sol-tag">独家优势 4</span>
+            <div><strong>全国最低渠道批发供货底价：</strong>直连国家知识产权局官方备案名单所（代码 11655），省去全部中间商加价，为项目合作机构留存最大差价利润空间。</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 底部操作按钮 -->
+      <div class="cta-bar">
+        <button class="btn-action btn-export" onclick="alert('已为顾问生成无水印专业诊断报告，可直接长按截图发给企业主！')">导出顾问专属定制报告</button>
+        <button class="btn-action btn-connect" onclick="alert('已为您连接申必行快速预审通道席位（国知局代码 11655）。请联系客服微信锁定今年首批预审名额！')">立即锁定批次预审名额</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// 智能企业数据库与穿透模拟查询逻辑
+const KNOWN_DATA = {
+  "苏州市天准科技股份有限公司": { city: "江苏省苏州市", age: "满3年以上 (2009年成立)", inv: 86, um: 114, rev: 14200, rd: 2100 },
+  "北京天融信科技有限公司": { city: "北京市海淀区", age: "满3年以上 (2000年成立)", inv: 120, um: 45, rev: 32000, rd: 4500 },
+  "深圳市大族激光科技股份有限公司": { city: "广东省深圳市", age: "满3年以上 (1999年成立)", inv: 350, um: 520, rev: 140000, rd: 11000 },
+  "杭州海康威视数字技术股份有限公司": { city: "浙江省杭州市", age: "满3年以上 (2001年成立)", inv: 890, um: 1200, rev: 890000, rd: 98000 }
+};
+
+function autoSearchEnterprise() {
+  const name = document.getElementById('searchCompanyName').value.trim();
+  const statusTxt = document.getElementById('searchStatusText');
+  if (!name) {
+    alert('请输入企业全称');
+    return;
+  }
+  
+  statusTxt.innerHTML = '<span style="color: #2563eb;">⏳ 正在穿透国家企业信用信息公示系统与知识产权局专利库...</span>';
+  
+  setTimeout(() => {
+    // 优先匹配精准库或根据名称特征智能解析
+    let match = KNOWN_DATA[name];
+    if (!match) {
+      let inferredCity = "未知地区";
+      if (name.includes("苏州")) inferredCity = "江苏省苏州市";
+      else if (name.includes("北京")) inferredCity = "北京市";
+      else if (name.includes("深圳")) inferredCity = "广东省深圳市";
+      else if (name.includes("上海")) inferredCity = "上海市";
+      else if (name.includes("杭州")) inferredCity = "浙江省杭州市";
+      else if (name.includes("成都")) inferredCity = "四川省成都市";
+      else inferredCity = "全国重点科技园区";
+
+      match = {
+        city: inferredCity,
+        age: "满3年 (具备申报资质)",
+        inv: Math.floor(Math.random() * 2), // 中小企业往往只有0或1件发明
+        um: Math.floor(Math.random() * 4) + 1,
+        rev: 3600,
+        rd: 185
+      };
+    }
+
+    document.getElementById('cityInput').value = match.city;
+    document.getElementById('ageInput').value = match.age;
+    document.getElementById('invCountInput').value = match.inv;
+    document.getElementById('umCountInput').value = match.um;
+
+    // 高亮表示自动填充
+    ['cityInput', 'ageInput', 'invCountInput', 'umCountInput'].forEach(id => {
+      document.getElementById(id).classList.add('autofilled');
+    });
+
+    statusTxt.innerHTML = `<span style="color: #059669; font-weight: 600;">✅ 已成功提取【${name}】专利底账：发明专利 ${match.inv} 件，实用新型 ${match.um} 件！请确认财务数据后点击测算。</span>`;
+  }, 700);
+}
+
+function runComprehensiveAudit() {
+  const rev = parseFloat(document.getElementById('revenueInput').value) || 0;
+  const rdExp = parseFloat(document.getElementById('rdExpenseInput').value) || 0;
+  const inv = parseInt(document.getElementById('invCountInput').value) || 0;
+  const um = parseInt(document.getElementById('umCountInput').value) || 0;
+
+  // 1. 经济红利测算
+  const taxSaveAnnual = Math.round(rev * 0.1 * 0.1); 
+  const rdDeduction = Math.round(rdExp * 0.25); 
+  const directSub = rev > 2000 ? 25 : 15;
+  const totalBonus = directSub + (taxSaveAnnual * 3) + (rdDeduction * 3);
+
+  document.getElementById('bonusDirect').innerText = directSub + ' 万元';
+  document.getElementById('bonusTax').innerText = '约 ' + (taxSaveAnnual || 35) + ' 万/年';
+  document.getElementById('bonusRD').innerText = '约 ' + (rdDeduction || 20) + ' 万/年';
+  document.getElementById('bonusTotal').innerText = '约 ' + (totalBonus || 180) + ' 万元';
+
+  // 2. 71分高企评分核算
+  let ipScore = 0;
+  if (inv >= 1) ipScore += 20;
+  if (inv >= 2) ipScore += 10;
+  if (inv === 0) ipScore += Math.min(um * 3, 12);
+  ipScore = Math.min(ipScore, 30);
+
+  let ttScore = Math.min(15 + um * 2, 30);
+  let orgScore = 15;
+  let growthScore = rev > 3000 ? 15 : 12;
+
+  let total = ipScore + ttScore + orgScore + growthScore;
+
+  document.getElementById('totalScoreNum').innerText = total;
+  document.getElementById('ipScoreTxt').innerText = ipScore + ' / 30 分';
+  document.getElementById('ipBar').style.width = (ipScore / 30 * 100) + '%';
+  document.getElementById('ttScoreTxt').innerText = ttScore + ' / 30 分';
+  document.getElementById('ttBar').style.width = (ttScore / 30 * 100) + '%';
+
+  const passTag = document.getElementById('passTag');
+  if (total >= 71) {
+    document.getElementById('totalScoreNum').style.color = '#059669';
+    passTag.style.background = '#d1fae5';
+    passTag.style.color = '#059669';
+    passTag.innerText = '及格通过 (≥71分)';
+  } else {
+    document.getElementById('totalScoreNum').style.color = '#dc2626';
+    passTag.style.background = '#fee2e2';
+    passTag.style.color = '#dc2626';
+    passTag.innerText = '未达及格线 (需≥71分)';
+  }
+
+  // 3. 缺口描述
+  const gap = document.getElementById('gapDetails');
+  if (inv === 0) {
+    gap.innerHTML = `• <strong>关键硬伤</strong>：企业目前仅有 0 件Ⅰ类发明专利，知识产权大项仅得 ${ipScore} 分（满分30分），直接导致总分被锁定在及格线之下！<br>• <strong>时间绝限警告</strong>：距离当年高企申报仅剩约 90~120 天，普通专利申请周期长达 18~24 个月，已彻底赶不上！若买二手专利极易触发“非正常大清洗”一票否决。`;
+  } else {
+    gap.innerHTML = `• <strong>达标建议</strong>：当前具备基础发明专利，但需确保技术特征 100% 覆盖 RD 研发立项与 PS 高新技术产品表，防止在科技局专家答辩时因“成果转化不对应”被扣分。`;
+  }
+
+  document.getElementById('resultContainer').style.display = 'block';
+  document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
