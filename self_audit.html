@@ -208,10 +208,10 @@
         <span>✓ 已自动读取：已公开专利底账、成立年限、匹配所属地区财政奖补字典</span>
       </div>
 
-      <!-- 可调微调指标 (仅保留最核心4项) -->
+      <!-- 核心输入表单 (明确标识自动提取与默认预设) -->
       <div class="grid-4">
         <div class="form-group">
-          <label class="form-label">所属地区（奖补字典）</label>
+          <label class="form-label">所属地区 <span style="font-size:10px; color:#2563eb; font-weight:normal;">[匹配财政库]</span></label>
           <select id="citySelect" class="form-control" onchange="runAnalysis(false)">
             <option value="suzhou" selected>江苏苏州（省市区奖补30万）</option>
             <option value="shenzhen">广东深圳（各区配套20-30万）</option>
@@ -224,17 +224,25 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">近一年营业收入 (万)</label>
+          <label class="form-label">近一年营业收入 (万) <span style="font-size:10px; color:#64748b; font-weight:normal;">[财务参考]</span></label>
           <input type="number" id="revInput" class="form-control" value="3800" onchange="runAnalysis(false)">
         </div>
         <div class="form-group">
-          <label class="form-label">近一年净利润 (万,亏损填0)</label>
+          <label class="form-label">近一年净利润 (万) <span style="font-size:10px; color:#64748b; font-weight:normal;">[亏损填0]</span></label>
           <input type="number" id="profitInput" class="form-control" value="260" onchange="runAnalysis(false)">
         </div>
         <div class="form-group">
-          <label class="form-label">已有授权发明专利 (件)</label>
+          <label class="form-label">已有授权发明专利 <span style="font-size:10px; color:#059669; font-weight:normal;">[公开底账同步]</span></label>
           <input type="number" id="invInput" class="form-control" value="0" onchange="runAnalysis(false)">
         </div>
+      </div>
+
+      <!-- 明确标识系统默认预设值 -->
+      <div style="background: #f1f5f9; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #475569; display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px;">
+        <span><strong>已核验成立年限</strong>：满 3 年（符合申报年限前提）<span style="color:#059669; margin-left:2px;">[系统已核验]</span></span>
+        <span><strong>研发人员占比</strong>：10% 及以上（符合法定硬指标）<span style="color:#2563eb; margin-left:2px;">[默认预设 · 可调整]</span></span>
+        <span><strong>实用新型/软著</strong>：已识别 2 件（计 4 分）<span style="color:#059669; margin-left:2px;">[底账同步]</span></span>
+        <span><strong>目标批次</strong>：2027年第一批（5-6月）<span style="color:#64748b; margin-left:2px;">[建议窗口]</span></span>
       </div>
     </div>
 
@@ -422,15 +430,58 @@
         </button>
       </div>
 
-      <!-- 按需展开：未来发展梯次规划图 -->
+      <!-- 按需展开：未来发展梯次规划图 (完整带有 SVG 图表与交互) -->
       <div class="ladder-toggle-section">
         <div class="toggle-header" onclick="toggleLadder()">
           <div class="toggle-title">进阶规划：企业梯次发展知识产权配置图（高企 ➔ 专精特新 ➔ 小巨人 ➔ IPO）</div>
-          <div id="toggleBtnTxt" class="toggle-btn">点击按需展开 ▼</div>
+          <div id="toggleBtnTxt" class="toggle-btn">点击按需展开完整规划图 ▼</div>
         </div>
 
         <div id="ladderContent" class="ladder-content">
-          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">点击下方标签，查看不同阶段对核心发明专利的最低要求：</p>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+            企业向更高梯次迈进，核心专利数量与质量是法定硬指标。下图展示了各梯次培育的知识产权配置要求：
+          </p>
+
+          <!-- 完整的交互 SVG 折线图 -->
+          <div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 14px;">
+            <svg id="ladderChartSvg" style="width: 100%; height: 210px; overflow: visible;" viewBox="0 0 960 210">
+              <line x1="80" y1="20" x2="880" y2="20" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="80" y1="60" x2="880" y2="60" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="80" y1="100" x2="880" y2="100" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="80" y1="140" x2="880" y2="140" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="80" y1="180" x2="880" y2="180" stroke="#cbd5e1" stroke-width="1.5"/>
+
+              <text x="35" y="25" font-size="11" fill="#94a3b8">15件+</text>
+              <text x="35" y="65" font-size="11" fill="#94a3b8">8件</text>
+              <text x="35" y="105" font-size="11" fill="#94a3b8">4件</text>
+              <text x="35" y="145" font-size="11" fill="#94a3b8">1~2件</text>
+              <text x="35" y="185" font-size="11" fill="#94a3b8">0件</text>
+
+              <polyline points="130,180 290,140 470,100 650,60 830,20" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- 现状节点 -->
+              <circle cx="130" cy="180" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+              <text x="130" y="205" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">当前现状</text>
+
+              <!-- 高企节点 -->
+              <circle cx="290" cy="140" r="9" fill="#2563eb" stroke="#f59e0b" stroke-width="3"/>
+              <text x="290" y="205" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">国家高新技术企业</text>
+
+              <!-- 专精特新节点 -->
+              <circle cx="470" cy="100" r="6" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+              <text x="470" y="205" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">省/市专精特新</text>
+
+              <!-- 小巨人节点 -->
+              <circle cx="650" cy="60" r="6" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+              <text x="650" y="205" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">国家级小巨人</text>
+
+              <!-- IPO节点 -->
+              <circle cx="830" cy="20" r="6" fill="#059669" stroke="#ffffff" stroke-width="2"/>
+              <text x="830" y="205" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">科创/创业板IPO</text>
+            </svg>
+          </div>
+
+          <!-- 点击切换阶梯卡片 -->
           <div class="ladder-pills">
             <div class="ladder-pill active" onclick="switchLadderPill(0)">1. 国家高新技术企业</div>
             <div class="ladder-pill" onclick="switchLadderPill(1)">2. 省市专精特新</div>
@@ -438,8 +489,8 @@
             <div class="ladder-pill" onclick="switchLadderPill(3)">4. 科创/创业板IPO</div>
           </div>
 
-          <div id="ladderPillDetail" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 12px;">
-            <strong>高新技术企业达标要求</strong>：授权发明专利 1~2 件（或实用新型 5+ 件），重点解决 71 分评审及格线，锁定 15% 企业所得税减免与直接财政奖补。
+          <div id="ladderPillDetail" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.5;">
+            <strong>高新技术企业达标要求</strong>：授权发明专利 1~2 件（或实用新型 5+ 件），重点解决 71 分及格线，锁定 15% 企业所得税减免与直接财政奖补。
           </div>
         </div>
       </div>
@@ -592,6 +643,20 @@
       pills.forEach(p => p.classList.remove('active'));
       pills[idx].classList.add('active');
       document.getElementById('ladderPillDetail').innerHTML = `<strong>阶段要求</strong>：${LADDER_DETAILS[idx]}`;
+
+      const circles = document.querySelectorAll('#ladderChartSvg circle');
+      circles.forEach((c, i) => {
+        if (i === 0) return;
+        if (i === idx + 1) {
+          c.setAttribute('r', '9');
+          c.setAttribute('stroke', '#f59e0b');
+          c.setAttribute('stroke-width', '3');
+        } else {
+          c.setAttribute('r', '6');
+          c.setAttribute('stroke', '#ffffff');
+          c.setAttribute('stroke-width', '2');
+        }
+      });
     }
 
     // 弹窗控制
