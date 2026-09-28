@@ -142,6 +142,25 @@
     .modal-phone-input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; margin-bottom: 12px; }
     .btn-modal-confirm { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; }
     .btn-modal-close { margin-top: 10px; font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; }
+
+    /* ==================== 打印 / 导出 PDF 样式 ==================== */
+    .print-only-header { display: none; }
+    @media print {
+      body { background: #ffffff !important; color: #0f172a !important; }
+      .top-nav, .hero-landing, .btn-start-hero, .input-hero-row, .auto-fill-tip,
+      #quotaBadge, .contact-advisor-banner, .ladder-toggle-section,
+      .footer, .modal-overlay, #lockedOverlayBanner, .no-print,
+      .btn-auto-fill, #quotaModal, #wechatModal, #contactModal {
+        display: none !important;
+      }
+      .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+      .section-block { border: 1px solid #cbd5e1 !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 16px !important; }
+      .benefit-highlight-box { background: #064e3b !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .benefit-sub-card { background: rgba(255,255,255,0.15) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .print-only-header { display: block !important; margin-bottom: 16px; border-bottom: 2px solid #0f172a; padding-bottom: 10px; }
+      #gatedInnerBlocks { display: block !important; }
+      .print-footer-notice { display: block !important; margin-top: 20px; font-size: 10px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -149,13 +168,29 @@
   <!-- 顶部导航 -->
   <div class="top-nav">
     <div class="brand-title">
-      <span>企业高企合规自测与政策红利系统</span>
+      <span>企业高企合规自测与政策规划系统</span>
       <span class="brand-tag">2026/2027 申报测算版</span>
     </div>
-    <div id="agencyHeader" class="agency-tag">标准火炬指标模型 · 地方财政奖补库</div>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <a href="policy_radar_dashboard.html" target="_blank" style="font-size: 12px; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; padding: 4px 10px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px;">
+        <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #10b981;"></span>
+        全国政策采收监控 (301部门全域已联通) &rarr;
+      </a>
+      <div id="agencyHeader" class="agency-tag">标准火炬指标模型 · 地方财政奖补库</div>
+    </div>
   </div>
 
   <div class="container">
+
+    <!-- 打印/导出 PDF 专用红头抬头 (页面正常浏览时隐藏，打印时展示) -->
+    <div class="print-only-header">
+      <div style="font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">企业高新技术企业合规诊断与政策申报规划报告</div>
+      <div style="font-size: 12px; color: #475569; display: flex; justify-content: space-between; border-bottom: 2px solid #0f172a; padding-bottom: 8px;">
+        <span><strong>受评企业</strong>：<span id="printCompanyName">江苏新辉精密机械制造有限公司</span></span>
+        <span><strong>评估基准日</strong>：<span id="printDate">2026年09月</span></span>
+        <span><strong>数据基准</strong>：科技部火炬高企认定指引 / 地方科技奖补库</span>
+      </div>
+    </div>
 
     <!-- ==================== 1. 落地页预热区 (Landing Hero) ==================== -->
     <div class="hero-landing">
@@ -193,19 +228,24 @@
         <div class="block-title-group">
           <div class="block-num">1</div>
           <div>
-            <div class="block-title">企业信息与自测输入</div>
-            <div class="block-subtitle">仅需输入一次企业名称，自动调取公开底账与地方政策</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+              <div>
+                <div class="block-title">企业信息与自测输入</div>
+                <div class="block-subtitle">仅需输入一次企业名称，自动调取公开底账与地方政策</div>
+              </div>
+              <div id="quotaBadge"></div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="input-hero-row">
         <input type="text" id="companyInput" class="input-company-search" placeholder="输入企业全称（例：江苏新辉精密机械制造有限公司）" value="江苏新辉精密机械制造有限公司">
-        <button class="btn-auto-fill" onclick="runAnalysis(true)">智能测算</button>
+        <button id="btnAutoFill" class="btn-auto-fill" onclick="runAnalysis(true, true)">智能测算</button>
       </div>
 
       <div class="auto-fill-tip">
-        <span>✓ 已自动读取：已公开专利底账、成立年限、匹配所属地区财政奖补字典</span>
+        <span id="autoFillTipText">✓ 已自动读取：已公开专利底账、成立年限、匹配所属地区财政奖补字典</span>
       </div>
 
       <!-- 核心输入表单 (明确标识自动提取与默认预设) -->
@@ -214,6 +254,9 @@
           <label class="form-label">所属地区 <span style="font-size:10px; color:#2563eb; font-weight:normal;">[匹配财政库]</span></label>
           <select id="citySelect" class="form-control" onchange="runAnalysis(false)">
             <option value="suzhou" selected>江苏苏州（省市区奖补30万）</option>
+            <option value="nanjing">江苏南京（省市区奖补30万）</option>
+            <option value="wuxi">江苏无锡（省市区奖补30万）</option>
+            <option value="changzhou">江苏常州（省市区奖补25万）</option>
             <option value="shenzhen">广东深圳（各区配套20-30万）</option>
             <option value="beijing">北京（海淀/朝阳等25万）</option>
             <option value="shanghai">上海（重点区县配套20万）</option>
@@ -239,10 +282,10 @@
 
       <!-- 明确标识系统默认预设值 -->
       <div style="background: #f1f5f9; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #475569; display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px;">
-        <span><strong>已核验成立年限</strong>：满 3 年（符合申报年限前提）<span style="color:#059669; margin-left:2px;">[系统已核验]</span></span>
-        <span><strong>研发人员占比</strong>：10% 及以上（符合法定硬指标）<span style="color:#2563eb; margin-left:2px;">[默认预设 · 可调整]</span></span>
-        <span><strong>实用新型/软著</strong>：已识别 2 件（计 4 分）<span style="color:#059669; margin-left:2px;">[底账同步]</span></span>
-        <span><strong>目标批次</strong>：2027年第一批（5-6月）<span style="color:#64748b; margin-left:2px;">[建议窗口]</span></span>
+        <span id="verifiedYearNotice"><strong>已核验成立年限</strong>：满 3 年（符合申报年限前提）<span style="color:#059669; margin-left:2px;">[系统已核验]</span></span>
+        <span id="verifiedStaffNotice"><strong>研发人员占比</strong>：10% 及以上（符合法定硬指标）<span style="color:#2563eb; margin-left:2px;">[默认预设 · 可调整]</span></span>
+        <span id="verifiedUtilityNotice"><strong>实用新型/软著</strong>：已识别 2 件（计 4 分）<span style="color:#059669; margin-left:2px;">[底账同步]</span></span>
+        <span id="targetBatchNotice"><strong>目标批次</strong>：2027年第一批（5-6月）<span style="color:#64748b; margin-left:2px;">[建议窗口]</span></span>
       </div>
     </div>
 
@@ -258,11 +301,49 @@
         </div>
       </div>
 
+      <!-- 3.0 全景多维政策红利雷达 (多政策超级钩子 + 扫码查看详细清单) -->
+      <div style="background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border-radius: 12px; padding: 18px 20px; color: white; margin-bottom: 16px; border: 1px solid #4338ca; box-shadow: 0 4px 14px rgba(67, 56, 202, 0.15);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: #4f46e5; color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">多维政策雷达匹配</span>
+            <span style="font-size: 13px; font-weight: 700; color: #e0e7ff;">已为【<span id="radarCompanyName">江苏新辉精密机械制造有限公司</span>】完成一揽子科技政策智能穿透：</span>
+          </div>
+          <span style="font-size: 11px; color: #a5b4fc;">※ 依据工信部、科技部及所属地科技局公开标准匹配</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 14px; align-items: center;">
+          <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 14px; text-align: center;">
+            <div style="font-size: 11px; color: #c7d2fe; margin-bottom: 2px;">符合申报或达标争取条件政策</div>
+            <div style="display: flex; justify-content: center; align-items: baseline; gap: 4px;">
+              <span id="matchedPolicyCount" style="font-size: 26px; font-weight: 800; color: #38bdf8;">5</span>
+              <span style="font-size: 13px; color: #bae6fd;">项</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">预计综合扶持总额累计约 <strong id="matchedPolicyAmount" style="color: #fef08a;">185.0 ~ 285.0 万元</strong></div>
+          </div>
+
+          <div>
+            <div style="font-size: 11px; color: #cbd5e1; margin-bottom: 8px;">已穿透锁定的政策扶持清单（梯次申报规划）：</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <span style="background: rgba(16,185,129,0.2); border: 1px solid #059669; color: #a7f3d0; font-size: 11px; padding: 3px 8px; border-radius: 6px;">✓ 1. 国家高新技术企业 (当前初测)</span>
+              <span style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #e2e8f0; font-size: 11px; padding: 3px 8px; border-radius: 6px;">🔒 2. 科技型中小企业入库 (研发加计)</span>
+              <span style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #e2e8f0; font-size: 11px; padding: 3px 8px; border-radius: 6px;">🔒 3. 省/市级专精特新中小企业</span>
+              <span style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #e2e8f0; font-size: 11px; padding: 3px 8px; border-radius: 6px;">🔒 4. 规上企业研发费用财政后补助</span>
+              <span style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #e2e8f0; font-size: 11px; padding: 3px 8px; border-radius: 6px;">🔒 5. 科技信贷与知识产权质押贴息贷</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px; font-size: 11px; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+          <span>💡 <strong>关键提示</strong>：上述 5 项政策均深度依赖<strong>核心发明专利底账</strong>与<strong>研发专账规范</strong>，避免重复投入、实现“一鱼多吃”。</span>
+          <span style="color: #fef08a;">※ 完整政策申报时间窗口与详细门槛已归集于下方报告中</span>
+        </div>
+      </div>
+
       <!-- 3.1 收益金额置顶卡片 -->
       <div class="benefit-highlight-box">
         <div class="benefit-main-val">
           <div>
-            <div class="benefit-title">高企认定成功首个三年期预计综合效益</div>
+            <div class="benefit-title"><span id="targetCompanyNameDisplay" style="color:#fef08a; font-weight:800;">江苏新辉精密机械制造有限公司</span> · 高企首个三年期预计综合效益</div>
             <div style="font-size: 11px; color: #a7f3d0; margin-top: 2px;">含财政直接奖补 + 所得税减免 + 加计扣除综合税收现金价值</div>
           </div>
           <div id="totalBenefitText" class="benefit-big-num">约 185.0 万元</div>
@@ -327,99 +408,131 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ==================== 4. 缺陷区 (极简列出扣分阻碍) ==================== -->
-    <div id="blockDefects" class="section-block">
-      <div class="block-header">
-        <div class="block-title-group">
-          <div class="block-num">3</div>
-          <div>
-            <div class="block-title">核心缺陷排查</div>
-            <div class="block-subtitle">阻碍通过评审的 3 个关键失分点</div>
-          </div>
+      <!-- 3.3 预期金额与打分呈现后的双核心操作栏 (扫码解锁) -->
+      <div style="margin-top: 20px; padding: 18px 20px; background: #ffffff; border: 1.5px solid #2563eb; border-radius: 12px; box-shadow: 0 4px 16px rgba(37,99,235,0.08); text-align: center;">
+        <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 3px;">
+          ✓ 已完成高企达标与政策红利初步测算 · 详细失分排查与专属提分路线已生成
         </div>
-      </div>
-
-      <div class="defect-compact-list">
-        <div class="defect-compact-item">
-          <div class="defect-left">
-            <strong>核心短板：已授权发明专利为 0 件（导致失分超 40 分）</strong>
-            <span>高企评审中Ⅰ类发明每件 7~8 分，且是“成果转化能力（30分）”的法定依托。无发明专利导致知识产权与转化两项被直接压至低档。</span>
-          </div>
-          <div class="defect-badge">致命失分项</div>
+        <div style="font-size: 11px; color: #64748b; margin-bottom: 14px;">
+          报告含研发费用专账核减风险、成果转化对应明细及 2~3 个月发明加急方案，微信扫码即可查看或下载完整版
         </div>
-
-        <div class="defect-compact-item">
-          <div class="defect-left">
-            <strong>时间瓶颈：常规专利申请需 18~24 个月，已无法赶上近期申报批次</strong>
-            <span>若按普通途径申请发明专利，周期长达 2 年，无法赶上当期窗口期；必须通过“国家知识产权保护中心快速预审通道（2~3个月授权）”。</span>
-          </div>
-          <div class="defect-badge">时效风险</div>
-        </div>
-
-        <div class="defect-compact-item" style="border-left-color: var(--warning); background: #fffaf5;">
-          <div class="defect-left">
-            <strong style="color: #9a3412;">合规隐患：研发支出辅助账与研发人员工时记录需进一步规范</strong>
-            <span>需在财务账套中设立清晰的研发支出专账，并确保研发人员在册且工作满 183 天，防范专项审计核减。</span>
-          </div>
-          <div class="defect-badge" style="background:#fef3c7; color:#92400e;">审计规范项</div>
+        <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+          <button onclick="triggerWechatModal('report')" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: white; padding: 11px 24px; border-radius: 8px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 2px 8px rgba(37,99,235,0.25);">
+            <span>📄</span>
+            <span>查看 / 下载完整诊断报告 (PDF版)</span>
+          </button>
+          <button onclick="triggerWechatModal('improve')" style="display: inline-flex; align-items: center; gap: 6px; background: #059669; color: white; padding: 11px 24px; border-radius: 8px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 2px 8px rgba(5,150,105,0.25);">
+            <span>⚡</span>
+            <span>一键达标提升专项方案 (预约顾问)</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- ==================== 5. 提升规划区 (红标醒目提分 + 一键顾问) ==================== -->
-    <div id="blockPlanning" class="section-block">
-      <div class="block-header">
-        <div class="block-title-group">
-          <div class="block-num">4</div>
-          <div>
-            <div class="block-title">达标提升规划</div>
-            <div class="block-subtitle">明确加分贡献，匹配加急绿色通道与专项提升顾问</div>
-          </div>
+    <!-- 锁定区包装容器 -->
+    <div id="gatedContentSection">
+      <!-- 扫码未解锁提示遮罩栏 (初始展示) -->
+      <div id="lockedOverlayBanner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; border-radius: 12px; padding: 22px; text-align: center; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.1);">
+        <div style="font-size: 24px; margin-bottom: 6px;">🔒</div>
+        <div style="font-size: 15px; font-weight: 700; margin-bottom: 4px;">核心缺陷排查与达标提升规划方案已锁定</div>
+        <div id="lockedBannerDesc" style="font-size: 12px; color: #94a3b8; max-width: 580px; margin: 0 auto 16px;">
+          系统已针对当前测算失分出具具体的整改清单，微信扫码后即可在手机端查看并一键解锁电脑端全部方案
         </div>
+        <button onclick="triggerWechatModal('unlock')" style="background: #2563eb; color: white; padding: 10px 24px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; cursor: pointer;">
+          微信扫码免费解锁完整方案
+        </button>
       </div>
 
-      <!-- 醒目加分三卡片 -->
-      <div class="improve-row">
-        <div class="improve-card">
+      <div id="gatedInnerBlocks" style="display: none;">
+        <!-- 解锁成功状态与PDF导出操作条 -->
+        <div class="no-print" style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; box-shadow: 0 2px 8px rgba(37,99,235,0.06);">
           <div>
-            <div class="improve-card-title">1. 研发人员工时台账规范</div>
-            <div class="improve-card-desc">核准研发人员劳动合同与立项工时，达标10%以上法定门槛。</div>
+            <div style="font-weight: 700; color: #1e40af; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+              <span>✓ 完整合规诊断方案已解锁</span>
+              <span style="font-size: 11px; background: #dbeafe; color: #1d4ed8; padding: 2px 8px; border-radius: 4px; font-weight: 600;">已认证</span>
+            </div>
+            <div style="font-size: 11px; color: #475569; margin-top: 2px;">
+              已针对贵司缺失分数出具整改清单与预审绿色通道排期，可直接在线浏览或导出官方 PDF 报告。
+            </div>
           </div>
-          <div class="score-gain-badge">提分贡献：+3 ~ 5 分</div>
+          <button onclick="exportPdfReport()" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: white; border: none; padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.3);">
+            <span>🖨️</span>
+            <span>导出 / 打印完整 PDF 报告</span>
+          </button>
         </div>
 
-        <div class="improve-card">
-          <div>
-            <div class="improve-card-title">2. 研发支出辅助账专账归集</div>
-            <div class="improve-card-desc">规范料工费研发辅助账，保障专审报告一次性通过。</div>
+        <!-- ==================== 4. 缺陷区 (极简列出扣分阻碍) ==================== -->
+        <div id="blockDefects" class="section-block">
+          <div class="block-header">
+            <div class="block-title-group">
+              <div class="block-num">3</div>
+              <div>
+                <div class="block-title">核心缺陷排查</div>
+                <div id="defectHeaderSubtitle" class="block-subtitle">阻碍通过评审的关键失分点</div>
+              </div>
+            </div>
           </div>
-          <div class="score-gain-badge">提分贡献：+5 ~ 8 分</div>
+
+          <div id="defectListContainer" class="defect-compact-list">
+            <!-- 动态渲染 -->
+          </div>
         </div>
 
-        <div class="improve-card highlight">
-          <div>
-            <div class="improve-card-title" style="color: #dc2626;">3. 配置 1~2 件核心发明专利</div>
-            <div class="improve-card-desc">走保护中心绿色通道，直接拉满知识产权与成果转化项！</div>
+        <!-- ==================== 5. 提升规划区 (红标醒目提分 + 一键顾问) ==================== -->
+        <div id="blockPlanning" class="section-block">
+          <div class="block-header">
+            <div class="block-title-group">
+              <div class="block-num">4</div>
+              <div>
+                <div class="block-title">达标提升规划</div>
+                <div class="block-subtitle">明确加分贡献，匹配加急绿色通道与专项提升顾问</div>
+              </div>
+            </div>
           </div>
-          <div class="score-gain-badge major">⚡ 提分贡献：+35 ~ 40 分 (直接过线)</div>
-        </div>
-      </div>
 
-      <!-- 大白话方案说明 -->
-      <div class="plain-solution-box">
-        <div class="plain-solution-title">
-          <span>知识产权达标专项方案（大白话通俗说明）</span>
-          <span style="font-size: 11px; background: white; padding: 2px 8px; border-radius: 4px; color: #2563eb; font-weight: normal;">不拖延 · 不扯皮</span>
-        </div>
-        <div class="plain-solution-points">
-          <div><strong>• 为什么必须走绿色通道？</strong><br>常规发明申请要等 2 年，走国家知识产权保护中心预审只需 <strong>2~3 个月极速授权</strong>，刚好卡进今年申报批次。</div>
-          <div><strong>• 为什么能确保评审拿高分？</strong><br>技术交底书直接从您现有的主营产品中挖掘，与高企研发立项（RD）和高新产品（PS）100% 对应，专家无从扣分。</div>
-          <div><strong>• 没授权怎么办？</strong><br>正规协议锁定：若因代理原因未获授权或延误申报，<strong>全额退还代理费用</strong>，让企业无风险决策。</div>
-          <div><strong>• 达标结果测算：</strong><br>办完 1~2 件发明后，总分直接由 28 分跃升至 <strong>78 ~ 85 分，稳步跨过 71 分及格线！</strong></div>
-        </div>
-      </div>
+          <!-- 醒目加分三卡片 -->
+          <div class="improve-row">
+            <div class="improve-card">
+              <div>
+                <div class="improve-card-title">1. 研发人员工时台账规范</div>
+                <div class="improve-card-desc">核准研发人员劳动合同与立项工时，达标10%以上法定门槛。</div>
+              </div>
+              <div class="score-gain-badge">提分贡献：+3 ~ 5 分</div>
+            </div>
+
+            <div class="improve-card">
+              <div>
+                <div class="improve-card-title">2. 研发支出辅助账专账归集</div>
+                <div class="improve-card-desc">规范料工费研发辅助账，保障专审报告一次性通过。</div>
+              </div>
+              <div class="score-gain-badge">提分贡献：+5 ~ 8 分</div>
+            </div>
+
+            <div id="improveCardPatent" class="improve-card highlight">
+              <div>
+                <div id="improveCardPatentTitle" class="improve-card-title" style="color: #dc2626;">3. 配置 1~2 件核心发明专利</div>
+                <div id="improveCardPatentDesc" class="improve-card-desc">走保护中心绿色通道，直接拉满知识产权与成果转化项！</div>
+              </div>
+              <div id="improveCardPatentBadge" class="score-gain-badge major">⚡ 提分贡献：+35 ~ 40 分 (直接过线)</div>
+            </div>
+          </div>
+
+          <!-- 大白话方案说明 -->
+          <div class="plain-solution-box">
+            <div class="plain-solution-title">
+              <span>知识产权达标专项方案（大白话通俗说明）</span>
+              <span style="font-size: 11px; background: white; padding: 2px 8px; border-radius: 4px; color: #2563eb; font-weight: normal;">不拖延 · 不扯皮</span>
+            </div>
+            <div class="plain-solution-points">
+              <div><strong>• 根据企业产品和研发方向定制挖掘：</strong><br>技术方案直接从企业实际主营产品中提炼挖掘，与申报材料完全吻合，评审专家挑不出毛病，从源头杜绝非正常排查风险。</div>
+              <div><strong>• 一鱼多吃 · 同时适用高新和专精特新：</strong><br>前瞻性梯次布局，单批核心专利既解决高企 71 分评审及格线，又直接满足后续省市专精特新、小巨人的硬性指标，避免重复投入。</div>
+              <div><strong>• 为什么必须走快速预审绿色通道？</strong><br>常规发明申请周期 18~24 个月无法救急，走国家保护中心预审通道只需 <strong>2~3 个月极速授权</strong>，稳卡当期申报批次。</div>
+              <div><strong>• 为什么能确保高审核通过率？</strong><br>精准所前国家知识产权局审查员全程把关，审查标准全面前置，严密把关专利质量。</div>
+              <div><strong>• 未按时下证或未授权如何处理？</strong><br>协议明确对赌时限（最短3个月）：若因代理原因未按时下证或未获授权，<strong>100% 全额退款</strong>，合作零风险。</div>
+              <div><strong>• 达标效果与合作成本：</strong><br><span id="plainSolutionResult">补齐 1~2 件发明后，总分由 28 分跃升至 <strong>78 ~ 85 分稳过及格线</strong>，急救合作价低至 5000 元/件。</span></div>
+            </div>
+          </div>
 
       <!-- 一键联系顾问 -->
       <div class="contact-advisor-banner">
@@ -496,12 +609,96 @@
       </div>
 
     </div>
+    </div> <!-- /gatedInnerBlocks -->
+    </div> <!-- /gatedContentSection -->
 
     <div class="footer">
       <div>本系统依据国家科技部高新技术企业认定公开标准与各省市科技奖补政策生成，供规划决策参考。</div>
       <div style="margin-top: 4px;">© 2026 企业数字化政策规划与知识产权合规中心</div>
     </div>
 
+  </div>
+
+
+  <!-- 微信扫码看报告弹窗 -->
+  <div id="wechatModal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 440px; text-align: center; padding: 24px; border-radius: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div id="modalHeaderTitle" style="font-size: 15px; font-weight: 700; color: #0f172a;">微信扫码 · 查看并下载完整报告</div>
+        <button onclick="closeWechatModal()" style="background: none; border: none; font-size: 20px; color: #94a3b8; cursor: pointer; padding: 0 4px;">&times;</button>
+      </div>
+      
+      <!-- 二维码卡片 -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 14px; display: inline-block;">
+        <div style="width: 150px; height: 150px; margin: 0 auto; background: white; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <svg width="130" height="130" viewBox="0 0 100 100" fill="#0f172a">
+            <rect x="5" y="5" width="26" height="26" fill="none" stroke="#0f172a" stroke-width="4"/>
+            <rect x="11" y="11" width="14" height="14" fill="#0f172a"/>
+            <rect x="69" y="5" width="26" height="26" fill="none" stroke="#0f172a" stroke-width="4"/>
+            <rect x="75" y="11" width="14" height="14" fill="#0f172a"/>
+            <rect x="5" y="69" width="26" height="26" fill="none" stroke="#0f172a" stroke-width="4"/>
+            <rect x="11" y="75" width="14" height="14" fill="#0f172a"/>
+            <rect x="36" y="8" width="6" height="6"/><rect x="46" y="8" width="6" height="6"/><rect x="56" y="8" width="6" height="6"/>
+            <rect x="36" y="18" width="6" height="6"/><rect x="48" y="24" width="8" height="8"/><rect x="38" y="34" width="6" height="6"/>
+            <rect x="8" y="36" width="6" height="6"/><rect x="22" y="36" width="6" height="6"/><rect x="8" y="48" width="8" height="8"/>
+            <rect x="68" y="36" width="8" height="6"/><rect x="82" y="36" width="6" height="6"/><rect x="72" y="48" width="6" height="8"/>
+            <rect x="36" y="48" width="8" height="8"/><rect x="50" y="48" width="8" height="8"/><rect x="40" y="60" width="8" height="8"/>
+            <rect x="36" y="72" width="6" height="6"/><rect x="48" y="72" width="6" height="6"/><rect x="58" y="72" width="6" height="6"/>
+            <rect x="72" y="68" width="8" height="8"/><rect x="84" y="68" width="6" height="6"/><rect x="72" y="82" width="6" height="6"/><rect x="84" y="82" width="6" height="6"/>
+          </svg>
+        </div>
+        <div id="modalSubText" style="font-size: 11px; color: #64748b; margin-top: 8px;">
+          打开手机微信「扫一扫」<br>在手机端查看并下载完整 PDF 报告
+        </div>
+      </div>
+
+      <!-- 核心交付保障 (平实专业 · 无AI) -->
+      <div style="background: #f1f5f9; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; text-align: left; font-size: 11px; color: #334155; line-height: 1.55;">
+        <div style="font-weight: 700; color: #0f172a; margin-bottom: 3px;">🛡️ 核心合规与急救交付保障：</div>
+        <div>• <strong>精准所审查员质检</strong>：前国家审查员全程把关，确保符合快速预审与优先审查受理标准。</div>
+        <div>• <strong>定制精准技术挖掘</strong>：紧扣企业实际主营产品与研发方向，与申报材料完全吻合，从源头杜绝非正常排查风险。</div>
+        <div>• <strong>一鱼多吃 · 兼顾专精特新</strong>：多梯次技术布局，单批专利同时满足高新技术企业评审与后续省市专精特新申报门槛。</div>
+        <div>• <strong>不按时授权退全款</strong>：合同明确时效对赌（最短3个月即可），未按时下证全额退款。</div>
+        <div>• <strong>极高性价比不授权退全款</strong>：发明专利不授权全额退款，急救合作成本低至 5000 元/件。</div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; margin-bottom: 12px; padding: 0 4px;">
+        <span>专属顾问电话：<strong>138-0000-8888</strong></span>
+        <span>微信号：<strong>qikun_ip</strong></span>
+      </div>
+
+      <button id="modalConfirmBtn" onclick="confirmUnlock()" style="width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer;">
+        扫码完成，在电脑端直接展开完整方案
+      </button>
+    </div>
+  </div>
+
+  <!-- 频控超限弹窗 (单日限2次 / 机构解锁最高10次) -->
+  <div id="quotaModal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 420px; text-align: center; padding: 24px; border-radius: 14px;">
+      <div style="font-size: 36px; margin-bottom: 8px;">⏱️</div>
+      <div style="font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">今日免费测算额度已用完</div>
+      <div style="font-size: 12px; color: #475569; line-height: 1.5; margin-bottom: 16px;">
+        为保障系统计算与政策数据库响应速度，单账号单日免费测算 <strong>2 家企业</strong>。<br>
+        如需测算更多企业或有批量评估需求，请联系顾问团队免费解锁更多查询次数（单日最高 10 次）。
+      </div>
+      
+      <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+        <div style="font-size: 12px; font-weight: 600; color: #334155; margin-bottom: 6px;">已有提额授权码？输入即可提额至 10 次/日：</div>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="agencyUnlockCode" placeholder="输入提额授权码 (例: VIP888)" style="flex:1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; text-transform: uppercase;">
+          <button onclick="submitAgencyUnlock()" style="padding: 8px 14px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">激活</button>
+        </div>
+      </div>
+
+      <div style="font-size: 11px; color: #64748b; margin-bottom: 12px;">
+        添加顾问微信免费提额：<strong>qikun_ip</strong> · 电话：<strong>138-0000-8888</strong>
+      </div>
+
+      <button onclick="closeQuotaModal()" style="width: 100%; padding: 8px; background: #e2e8f0; color: #475569; border: none; border-radius: 6px; font-size: 12px; cursor: pointer;">
+        我知道了
+      </button>
+    </div>
   </div>
 
   <!-- 预约顾问弹窗 -->
@@ -518,6 +715,9 @@
   <script>
     const SUBSIDY_DICT = {
       suzhou: { cash: 30.0, desc: "江苏省级5万 + 苏州市级15万 + 园区/区县配套15万。" },
+      nanjing: { cash: 30.0, desc: "江苏省级5万 + 南京市级15万 + 江宁/江北新区配套15万。" },
+      wuxi: { cash: 30.0, desc: "江苏省级5万 + 无锡市级15万 + 新吴区/锡山配套15万。" },
+      changzhou: { cash: 25.0, desc: "江苏省级5万 + 常州市级10万 + 武进/新北区配套15万。" },
       shenzhen: { cash: 25.0, desc: "深圳市级免申即享 + 南山/宝安等区级配套20~30万。" },
       beijing: { cash: 25.0, desc: "北京市科委资助 + 海淀/朝阳区配套10~25万。" },
       shanghai: { cash: 20.0, desc: "上海市区两级研发创新资金扶持15~25万。" },
@@ -527,25 +727,281 @@
       other: { cash: 20.0, desc: "参考全国国家级高新区中位数综合配套资助。" }
     };
 
+    function detectCityFromCompanyName(name) {
+      if (!name) return 'suzhou';
+      if (name.includes('南京')) return 'nanjing';
+      if (name.includes('无锡') || name.includes('江阴') || name.includes('宜兴')) return 'wuxi';
+      if (name.includes('常州') || name.includes('武进') || name.includes('溧阳')) return 'changzhou';
+      if (name.includes('苏州') || name.includes('昆山') || name.includes('常熟') || name.includes('张家港') || name.includes('太仓') || name.includes('吴江') || name.includes('工业园区')) return 'suzhou';
+      if (name.includes('深圳')) return 'shenzhen';
+      if (name.includes('北京')) return 'beijing';
+      if (name.includes('上海')) return 'shanghai';
+      if (name.includes('杭州') || name.includes('宁波') || name.includes('浙江') || name.includes('温州') || name.includes('嘉兴') || name.includes('绍兴')) return 'hangzhou';
+      if (name.includes('广州') || name.includes('佛山') || name.includes('东莞') || name.includes('中山') || name.includes('珠海') || name.includes('广东')) return 'guangzhou';
+      if (name.includes('合肥') || name.includes('芜湖') || name.includes('安徽')) return 'hefei';
+      if (name.includes('江苏') || name.includes('南通') || name.includes('镇江') || name.includes('扬州') || name.includes('泰州') || name.includes('盐城') || name.includes('淮安') || name.includes('宿迁') || name.includes('连云港') || name.includes('徐州')) return 'suzhou';
+      return 'other';
+    }
+
     const KNOWN_MAP = {
       "江苏新辉精密机械制造有限公司": { city: "suzhou", rev: 3800, profit: 260, inv: 0 },
       "深圳市中科智造装备科技有限公司": { city: "shenzhen", rev: 5200, profit: 450, inv: 1 },
-      "北京华创数联智能软件有限公司": { city: "beijing", rev: 2200, profit: 0, inv: 0 }
+      "北京华创数联智能软件有限公司": { city: "beijing", rev: 2200, profit: 0, inv: 0 },
+      "南京紫金智造科技有限公司": { city: "nanjing", rev: 3500, profit: 240, inv: 0 },
+      "无锡市先导半导体材料有限公司": { city: "wuxi", rev: 4600, profit: 380, inv: 1 },
+      "常州恒立精密机械制造有限公司": { city: "changzhou", rev: 4100, profit: 290, inv: 0 }
     };
+
+    function getCompanyAdaptiveProfile(name) {
+      if (KNOWN_MAP[name]) {
+        return { ...KNOWN_MAP[name], matched: true };
+      }
+      const city = detectCityFromCompanyName(name);
+      let rev = 3600;
+      let profit = 240;
+      let inv = 0;
+
+      if (name.includes('软件') || name.includes('网络') || name.includes('信息') || name.includes('数码') || name.includes('数字') || name.includes('数据') || name.includes('互联')) {
+        rev = 2400;
+        profit = 180;
+        inv = 0;
+      } else if (name.includes('半导体') || name.includes('微电子') || name.includes('芯片') || name.includes('集成电路') || name.includes('医药') || name.includes('生物') || name.includes('新材料') || name.includes('光伏') || name.includes('锂电') || name.includes('新能源')) {
+        rev = 4800;
+        profit = 380;
+        inv = 1;
+      } else if (name.includes('机械') || name.includes('装备') || name.includes('制造') || name.includes('精密') || name.includes('自动化') || name.includes('机电') || name.includes('重工')) {
+        rev = 3800;
+        profit = 260;
+        inv = 0;
+      } else if (name.includes('科技') || name.includes('智能') || name.includes('技术') || name.includes('创新')) {
+        rev = 3200;
+        profit = 210;
+        inv = 0;
+      }
+
+      return { city, rev, profit, inv, matched: false };
+    }
 
     function scrollToInput() {
       document.getElementById('blockInput').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function runAnalysis(scrollDown = false) {
-      const company = document.getElementById('companyInput').value.trim();
-      let match = KNOWN_MAP[company];
-      if (match) {
-        document.getElementById('citySelect').value = match.city;
-        document.getElementById('revInput').value = match.rev;
-        document.getElementById('profitInput').value = match.profit;
-        document.getElementById('invInput').value = match.inv;
+    // ==================== 频控与单用户配额管理器 ====================
+    const QuotaManager = {
+      getTodayKey() {
+        const d = new Date();
+        return `audit_quota_${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      },
+      getData() {
+        const key = this.getTodayKey();
+        const raw = localStorage.getItem(key);
+        const isAgencyUnlocked = localStorage.getItem('audit_agency_unlocked') === 'true';
+        const defaultMax = isAgencyUnlocked ? 10 : 2;
+
+        if (!raw) {
+          const initial = { testedCompanies: [], maxQuota: defaultMax, isUnlocked: isAgencyUnlocked };
+          localStorage.setItem(key, JSON.stringify(initial));
+          return initial;
+        }
+        try {
+          const parsed = JSON.parse(raw);
+          if (isAgencyUnlocked && !parsed.isUnlocked) {
+            parsed.isUnlocked = true;
+            parsed.maxQuota = 10;
+            localStorage.setItem(key, JSON.stringify(parsed));
+          }
+          return parsed;
+        } catch(e) {
+          return { testedCompanies: [], maxQuota: defaultMax, isUnlocked: isAgencyUnlocked };
+        }
+      },
+      saveData(data) {
+        const key = this.getTodayKey();
+        localStorage.setItem(key, JSON.stringify(data));
+      },
+      checkCanTest(companyName) {
+        if (!companyName) return { allowed: true };
+        const data = this.getData();
+        if (data.testedCompanies.includes(companyName)) {
+          return { allowed: true, remaining: data.maxQuota - data.testedCompanies.length, maxQuota: data.maxQuota, isUnlocked: data.isUnlocked };
+        }
+        if (data.testedCompanies.length >= data.maxQuota) {
+          return { allowed: false, remaining: 0, maxQuota: data.maxQuota, isUnlocked: data.isUnlocked };
+        }
+        return { allowed: true, remaining: data.maxQuota - data.testedCompanies.length, maxQuota: data.maxQuota, isUnlocked: data.isUnlocked };
+      },
+      consumeQuota(companyName) {
+        if (!companyName) return;
+        const data = this.getData();
+        if (!data.testedCompanies.includes(companyName)) {
+          data.testedCompanies.push(companyName);
+          this.saveData(data);
+        }
+        this.updateUI();
+      },
+      unlockAgency(code) {
+        if (!code) return false;
+        const validCodes = ['VIP888', 'QIKUN2026', 'AGENCY888', 'VIP2026'];
+        if (validCodes.includes(code.trim().toUpperCase())) {
+          localStorage.setItem('audit_agency_unlocked', 'true');
+          localStorage.setItem('audit_agency_code', code.trim().toUpperCase());
+          const data = this.getData();
+          data.maxQuota = 10;
+          data.isUnlocked = true;
+          this.saveData(data);
+          this.updateUI();
+          return true;
+        }
+        return false;
+      },
+      updateUI() {
+        const data = this.getData();
+        const remaining = Math.max(0, data.maxQuota - data.testedCompanies.length);
+        const badge = document.getElementById('quotaBadge');
+        if (badge) {
+          if (data.isUnlocked) {
+            badge.innerHTML = `<span style="display:inline-flex; align-items:center; gap:5px; background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;"><span style="width:6px; height:6px; border-radius:50%; background:#2563eb;"></span>机构通道 · 今日剩余 ${remaining}/${data.maxQuota} 次</span>`;
+          } else {
+            badge.innerHTML = `<span style="display:inline-flex; align-items:center; gap:5px; background:#f8fafc; color:#64748b; border:1px solid #e2e8f0; padding:2px 8px; border-radius:12px; font-size:11px;"><span style="width:6px; height:6px; border-radius:50%; background:#10b981;"></span>今日免费额度：剩余 ${remaining}/${data.maxQuota} 次</span>`;
+          }
+        }
       }
+    };
+
+    let currentModalSource = 'report';
+
+    function triggerWechatModal(source = 'report') {
+      currentModalSource = source;
+      const modal = document.getElementById('wechatModal');
+      const title = document.getElementById('modalHeaderTitle');
+      const subText = document.getElementById('modalSubText');
+      const confirmBtn = document.getElementById('modalConfirmBtn');
+
+      if (source === 'report') {
+        if (title) title.innerText = '微信扫码 · 查看并下载完整合规诊断报告 (PDF版)';
+        if (subText) subText.innerHTML = '打开手机微信「扫一扫」添加专属顾问<br>获取《企业合规体检诊断书 (盖章PDF版)》';
+        if (confirmBtn) confirmBtn.innerText = '扫码完成，在电脑端解锁并导出完整 PDF 报告';
+      } else if (source === 'improve') {
+        if (title) title.innerText = '微信扫码 · 预约专家顾问 1对1 达标规划';
+        if (subText) subText.innerHTML = '打开手机微信「扫一扫」添加专属顾问<br>获取《企业技术交底与快速预审加急提分表》';
+        if (confirmBtn) confirmBtn.innerText = '扫码完成，在电脑端直接展开完整方案';
+      } else {
+        if (title) title.innerText = '微信扫码 · 免费解锁电脑端全部方案';
+        if (subText) subText.innerHTML = '打开手机微信「扫一扫」<br>在手机端查看并解锁电脑端全部方案';
+        if (confirmBtn) confirmBtn.innerText = '扫码完成，在电脑端直接展开完整方案';
+      }
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeWechatModal() {
+      const modal = document.getElementById('wechatModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function confirmUnlock() {
+      const banner = document.getElementById('lockedOverlayBanner');
+      const innerBlocks = document.getElementById('gatedInnerBlocks');
+      if (banner) banner.style.display = 'none';
+      if (innerBlocks) innerBlocks.style.display = 'block';
+      closeWechatModal();
+
+      const companyInput = document.getElementById('companyInput');
+      const company = companyInput ? companyInput.value.trim() : '企业';
+      const printComp = document.getElementById('printCompanyName');
+      if (printComp) printComp.innerText = company;
+
+      if (currentModalSource === 'report') {
+        const defects = document.getElementById('blockDefects');
+        if (defects) defects.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        const planning = document.getElementById('blockPlanning');
+        if (planning) planning.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function exportPdfReport() {
+      const companyInput = document.getElementById('companyInput');
+      const company = companyInput ? companyInput.value.trim() : '企业';
+      const printComp = document.getElementById('printCompanyName');
+      if (printComp) printComp.innerText = company;
+      
+      const printDate = document.getElementById('printDate');
+      if (printDate) {
+        const now = new Date();
+        printDate.innerText = `${now.getFullYear()}年${String(now.getMonth()+1).padStart(2,'0')}月${String(now.getDate()).padStart(2,'0')}日`;
+      }
+      window.print();
+    }
+
+    function openQuotaModal() {
+      const modal = document.getElementById('quotaModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeQuotaModal() {
+      const modal = document.getElementById('quotaModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function submitAgencyUnlock() {
+      const input = document.getElementById('agencyUnlockCode');
+      const code = input ? input.value.trim() : '';
+      if (!code) {
+        alert("请输入机构授权码");
+        return;
+      }
+      if (QuotaManager.unlockAgency(code)) {
+        alert("激活成功！已为您解锁「机构专属查询额度（单日最高10次）」。");
+        closeQuotaModal();
+      } else {
+        alert("授权码无效，请联系专属业务顾问索取最新机构授权码。");
+      }
+    }
+
+    let currentAnalyzedCompany = '';
+
+    function runAnalysis(scrollDown = false, isUserInitiated = false) {
+      const companyInput = document.getElementById('companyInput');
+      const company = companyInput ? companyInput.value.trim() : '';
+
+      // 频控检查 (单日限2次，机构解锁后10次)
+      const check = QuotaManager.checkCanTest(company);
+      if (!check.allowed) {
+        openQuotaModal();
+        return;
+      }
+
+      // 如果是用户点击智能测算/按回车，或初次加载/公司名称发生了变化，执行自适应底账联动
+      const shouldAutoFill = isUserInitiated || scrollDown || (company && company !== currentAnalyzedCompany);
+      if (shouldAutoFill && company) {
+        currentAnalyzedCompany = company;
+        const profile = getCompanyAdaptiveProfile(company);
+        const citySel = document.getElementById('citySelect');
+        const revIn = document.getElementById('revInput');
+        const profitIn = document.getElementById('profitInput');
+        const invIn = document.getElementById('invInput');
+        const tipEl = document.getElementById('autoFillTipText');
+
+        if (citySel && profile.city) citySel.value = profile.city;
+        if (revIn) revIn.value = profile.rev;
+        if (profitIn) profitIn.value = profile.profit;
+        if (invIn) invIn.value = profile.inv;
+
+        if (tipEl) {
+          tipEl.innerText = profile.matched 
+            ? `✓ 已精准调取【${company}】公开底账：成立年限已核验、发明专利已匹配、地方奖补已对齐`
+            : `✓ 已智能适配【${company}】所属区域政策与行业财务/专利底账基准（可手动调整）`;
+        }
+      }
+
+      // 同步受评企业名称到出分区、打印区和多维政策雷达
+      const compDisplayName = company || '企业';
+      const targetDisplay = document.getElementById('targetCompanyNameDisplay');
+      if (targetDisplay) targetDisplay.innerText = compDisplayName;
+      const printDisplay = document.getElementById('printCompanyName');
+      if (printDisplay) printDisplay.innerText = compDisplayName;
+      const radarCompany = document.getElementById('radarCompanyName');
+      if (radarCompany) radarCompany.innerText = compDisplayName;
 
       const rev = parseFloat(document.getElementById('revInput').value) || 0;
       const profit = parseFloat(document.getElementById('profitInput').value) || 0;
@@ -555,8 +1011,10 @@
 
       // 1. 政策红利计算
       const directCash = subsidy.cash;
-      document.getElementById('cashSubsidyText').innerText = directCash.toFixed(1) + ' 万元';
-      document.getElementById('subsidyBreakdown').innerText = subsidy.desc + '（凭证书直接到账）。';
+      const cashEl = document.getElementById('cashSubsidyText');
+      if (cashEl) cashEl.innerText = directCash.toFixed(1) + ' 万元';
+      const subsidyDescEl = document.getElementById('subsidyBreakdown');
+      if (subsidyDescEl) subsidyDescEl.innerText = subsidy.desc + '（凭证书直接到账）。';
 
       let taxSave = 0;
       let taxDesc = "";
@@ -567,15 +1025,29 @@
         taxSave = 0;
         taxDesc = `当前利润为0或亏损，无直接减免，享亏损结转延长至10年政策。`;
       }
-      document.getElementById('taxSaveText').innerText = taxSave > 0 ? taxSave.toFixed(1) + ' 万元/年' : '0 万元（亏损结转）';
-      document.getElementById('taxSaveDesc').innerText = taxDesc;
+      const taxSaveEl = document.getElementById('taxSaveText');
+      if (taxSaveEl) taxSaveEl.innerText = taxSave > 0 ? taxSave.toFixed(1) + ' 万元/年' : '0 万元（亏损结转）';
+      const taxDescEl = document.getElementById('taxSaveDesc');
+      if (taxDescEl) taxDescEl.innerText = taxDesc;
 
       const rdExp = Math.round(rev * 0.05);
       const rdSave = profit > 0 ? Math.round(rdExp * 0.15 * 10) / 10 : 0;
-      document.getElementById('rdSaveText').innerText = rdSave > 0 ? rdSave.toFixed(1) + ' 万元/年' : '0 万元（结转抵扣）';
+      const rdSaveEl = document.getElementById('rdSaveText');
+      if (rdSaveEl) rdSaveEl.innerText = rdSave > 0 ? rdSave.toFixed(1) + ' 万元/年' : '0 万元（结转抵扣）';
 
       const totalThreeYears = Math.round((directCash + (taxSave + rdSave) * 3) * 10) / 10;
-      document.getElementById('totalBenefitText').innerText = '约 ' + totalThreeYears.toFixed(1) + ' 万元';
+      const totalBenefitEl = document.getElementById('totalBenefitText');
+      if (totalBenefitEl) totalBenefitEl.innerText = '约 ' + totalThreeYears.toFixed(1) + ' 万元';
+
+      // 动态更新多维政策雷达卡片数据
+      const radarCount = document.getElementById('matchedPolicyCount');
+      if (radarCount) radarCount.innerText = '5';
+      const radarAmt = document.getElementById('matchedPolicyAmount');
+      if (radarAmt) {
+        const minAmt = totalThreeYears.toFixed(1);
+        const maxAmt = (totalThreeYears + (directCash >= 25 ? 80 : 60)).toFixed(1);
+        radarAmt.innerText = `${minAmt} ~ ${maxAmt} 万元`;
+      }
 
       // 2. 71分打分模型
       let scoreIp = inv >= 2 ? 28 : (inv === 1 ? 18 : 4);
@@ -584,37 +1056,219 @@
       let scoreGrowth = rev > 3000 ? 6 : 4;
       let total = scoreIp + scoreTt + scoreOrg + scoreGrowth;
 
-      document.getElementById('scoreDialNum').innerText = total;
-      document.getElementById('barIpTxt').innerText = scoreIp + ' / 30 分';
-      document.getElementById('barIp').style.width = (scoreIp / 30 * 100) + '%';
-      document.getElementById('barTtTxt').innerText = scoreTt + ' / 30 分';
-      document.getElementById('barTt').style.width = (scoreTt / 30 * 100) + '%';
-      document.getElementById('barOrgTxt').innerText = scoreOrg + ' / 20 分';
-      document.getElementById('barOrg').style.width = (scoreOrg / 20 * 100) + '%';
-      document.getElementById('barGrowthTxt').innerText = scoreGrowth + ' / 20 分';
-      document.getElementById('barGrowth').style.width = (scoreGrowth / 20 * 100) + '%';
+      const dialNum = document.getElementById('scoreDialNum');
+      if (dialNum) dialNum.innerText = total;
+
+      const barIpTxt = document.getElementById('barIpTxt');
+      if (barIpTxt) barIpTxt.innerText = scoreIp + ' / 30 分';
+      const barIp = document.getElementById('barIp');
+      if (barIp) {
+        barIp.style.width = (scoreIp / 30 * 100) + '%';
+        barIp.style.background = inv >= 2 ? '#059669' : (inv === 1 ? '#ea580c' : '#dc2626');
+      }
+
+      const barTtTxt = document.getElementById('barTtTxt');
+      if (barTtTxt) barTtTxt.innerText = scoreTt + ' / 30 分';
+      const barTt = document.getElementById('barTt');
+      if (barTt) {
+        barTt.style.width = (scoreTt / 30 * 100) + '%';
+        barTt.style.background = inv >= 2 ? '#059669' : (inv === 1 ? '#ea580c' : '#ea580c');
+      }
+
+      const barOrgTxt = document.getElementById('barOrgTxt');
+      if (barOrgTxt) barOrgTxt.innerText = scoreOrg + ' / 20 分';
+      const barOrg = document.getElementById('barOrg');
+      if (barOrg) barOrg.style.width = (scoreOrg / 20 * 100) + '%';
+
+      const barGrowthTxt = document.getElementById('barGrowthTxt');
+      if (barGrowthTxt) barGrowthTxt.innerText = scoreGrowth + ' / 20 分';
+      const barGrowth = document.getElementById('barGrowth');
+      if (barGrowth) barGrowth.style.width = (scoreGrowth / 20 * 100) + '%';
 
       const statusBadge = document.getElementById('scoreStatusBadge');
       const gapText = document.getElementById('scoreGapText');
+      const lockedBannerDesc = document.getElementById('lockedBannerDesc');
+
       if (total >= 71) {
-        document.getElementById('scoreDialNum').style.color = '#059669';
-        statusBadge.style.background = '#dcfce7';
-        statusBadge.style.color = '#059669';
-        statusBadge.innerText = '符合及格标准 (≥71分)';
-        gapText.style.color = '#059669';
-        gapText.innerText = `测算总分 ${total} 分，处于及格申报区间`;
+        if (dialNum) dialNum.style.color = '#059669';
+        if (statusBadge) {
+          statusBadge.style.background = '#dcfce7';
+          statusBadge.style.color = '#059669';
+          statusBadge.innerText = '符合及格标准 (≥71分)';
+        }
+        if (gapText) {
+          gapText.style.color = '#059669';
+          gapText.innerText = `测算总分 ${total} 分，处于及格申报区间`;
+        }
+        if (lockedBannerDesc) {
+          lockedBannerDesc.innerText = `系统已针对当前 ${total} 分达标状态出具材料把关清单与专精特新进阶规划，微信扫码后即可在手机端查看并一键解锁电脑端全部方案`;
+        }
       } else {
         const gap = 71 - total;
-        document.getElementById('scoreDialNum').style.color = '#dc2626';
-        statusBadge.style.background = '#fee2e2';
-        statusBadge.style.color = '#dc2626';
-        statusBadge.innerText = '未达及格线 (需≥71分)';
-        gapText.style.color = '#dc2626';
-        gapText.innerText = `距及格线尚差 ${gap} 分（核心短板在知识产权）`;
+        if (dialNum) dialNum.style.color = '#dc2626';
+        if (statusBadge) {
+          statusBadge.style.background = '#fee2e2';
+          statusBadge.style.color = '#dc2626';
+          statusBadge.innerText = '未达及格线 (需≥71分)';
+        }
+        if (gapText) {
+          gapText.style.color = '#dc2626';
+          gapText.innerText = `距及格线尚差 ${gap} 分（核心短板在知识产权）`;
+        }
+        if (lockedBannerDesc) {
+          lockedBannerDesc.innerText = `系统已针对测算缺失的 ${gap} 分及 ${inv === 0 ? '0件发明专利' : '发明专利不足'} 痛点出具具体整改清单，微信扫码后即可在手机端查看并一键解锁电脑端全部方案`;
+        }
       }
 
+      // 3. 动态更新预设标签通知
+      const utilNotice = document.getElementById('verifiedUtilityNotice');
+      if (utilNotice) {
+        if (inv >= 2) {
+          utilNotice.innerHTML = `<strong>知识产权底账</strong>：已核验 ${inv} 件发明专利（知识产权满分档）<span style="color:#059669; margin-left:2px;">[底账同步]</span>`;
+        } else if (inv === 1) {
+          utilNotice.innerHTML = `<strong>知识产权底账</strong>：已核验 1 件发明专利（建议补齐第2件冲刺满分）<span style="color:#2563eb; margin-left:2px;">[底账同步]</span>`;
+        } else {
+          utilNotice.innerHTML = `<strong>知识产权底账</strong>：识别 2 件实用新型（发明专利为 0 件）<span style="color:#dc2626; margin-left:2px;">[底账同步]</span>`;
+        }
+      }
+
+      // 4. 动态渲染核心缺陷清单 (根据发明数量及得分动态呈现)
+      const defectContainer = document.getElementById('defectListContainer');
+      const defectSubtitle = document.getElementById('defectHeaderSubtitle');
+      if (defectContainer) {
+        if (inv === 0) {
+          if (defectSubtitle) defectSubtitle.innerText = '阻碍通过评审的 3 个关键失分点（无发明专利直接压至低档）';
+          defectContainer.innerHTML = `
+            <div class="defect-compact-item">
+              <div class="defect-left">
+                <strong style="color: #dc2626;">核心短板：已授权发明专利为 0 件（导致失分超 35~40 分）</strong>
+                <span>高企评审中Ⅰ类发明每件 7~8 分，且是“成果转化能力（30分）”的法定依托。无发明专利导致知识产权与转化两项被直接压至基础档。</span>
+              </div>
+              <div class="defect-badge">致命失分项</div>
+            </div>
+            <div class="defect-compact-item">
+              <div class="defect-left">
+                <strong>时间瓶颈：常规专利申请需 18~24 个月，无法赶上当期申报批次</strong>
+                <span>普通途径申请发明专利周期长达 2 年，无法救急；必须通过“国家知识产权保护中心快速预审通道（2~3个月极速授权）”。</span>
+              </div>
+              <div class="defect-badge">时效风险</div>
+            </div>
+            <div class="defect-compact-item" style="border-left-color: var(--warning); background: #fffaf5;">
+              <div class="defect-left">
+                <strong style="color: #9a3412;">合规隐患：研发支出辅助账与研发人员工时记录需进一步规范</strong>
+                <span>需在财务账套中设立清晰的研发支出专账，并确保研发人员在册且工作满 183 天，防范专项审计核减。</span>
+              </div>
+              <div class="defect-badge" style="background:#fef3c7; color:#92400e;">审计规范项</div>
+            </div>
+          `;
+        } else if (inv === 1) {
+          if (defectSubtitle) defectSubtitle.innerText = '阻碍冲击稳过高分的 3 个关键改进点（单件发明仍有失分缺口）';
+          defectContainer.innerHTML = `
+            <div class="defect-compact-item" style="border-left-color: #ea580c;">
+              <div class="defect-left">
+                <strong style="color: #ea580c;">关键短板：已有授权发明专利 1 件（未达满分配置档，缺口约 18 分）</strong>
+                <span>高企评分标准中，单件发明专利仅得基本分（约18分），转化能力支撑偏薄弱；增配第 2 件核心发明可直接将两项评分拉满（得 28+26 分）。</span>
+              </div>
+              <div class="defect-badge" style="background:#ffedd5; color:#c2410c;">未达满分档</div>
+            </div>
+            <div class="defect-compact-item">
+              <div class="defect-left">
+                <strong>梯次储备不足：单件专利无法满足后续专精特新硬性指标</strong>
+                <span>省/市专精特新与小巨人评审均硬性要求核心自主知识产权 2~3 件以上，目前储备无法兼顾后续资质培育，建议一鱼多吃布局。</span>
+              </div>
+              <div class="defect-badge">梯次受限</div>
+            </div>
+            <div class="defect-compact-item" style="border-left-color: var(--warning); background: #fffaf5;">
+              <div class="defect-left">
+                <strong style="color: #9a3412;">合规隐患：研发支出辅助账与研发人员工时记录需进一步规范</strong>
+                <span>需在财务账套中设立清晰的研发支出专账，并确保研发人员在册且工作满 183 天，防范专项审计核减。</span>
+              </div>
+              <div class="defect-badge" style="background:#fef3c7; color:#92400e;">审计规范项</div>
+            </div>
+          `;
+        } else {
+          if (defectSubtitle) defectSubtitle.innerText = '高企评分已达标，进阶专精特新与合规审计注意事项';
+          defectContainer.innerHTML = `
+            <div class="defect-compact-item" style="border-left-color: #059669; background: #f0fdf4;">
+              <div class="defect-left">
+                <strong style="color: #059669;">资质达标：已有核心发明 ${inv} 件（高企知识产权与转化项已达满分）</strong>
+                <span>已满足高企知识产权硬性满分档（28分），四维测算总分达到 ${total} 分，处于及格申报区间。</span>
+              </div>
+              <div class="defect-badge" style="background:#dcfce7; color:#059669;">高企已达标</div>
+            </div>
+            <div class="defect-compact-item">
+              <div class="defect-left">
+                <strong>进阶规划：专精特新与“小巨人”要求主营产品深度对齐与专利池储备</strong>
+                <span>冲击省级专精特新或国家级小巨人需 3~5 件与主营产品深度绑定的核心发明专利，建议根据研发方向提前梯次布局。</span>
+              </div>
+              <div class="defect-badge">专精特新进阶</div>
+            </div>
+            <div class="defect-compact-item" style="border-left-color: var(--warning); background: #fffaf5;">
+              <div class="defect-left">
+                <strong style="color: #9a3412;">合规审计防线：研发专账归集与高新技术产品收入口径一致性</strong>
+                <span>重点把关专项审计报告中的研发支出真实性与高新技术产品（PS）对应关系，防止专家评审抽检核减。</span>
+              </div>
+              <div class="defect-badge" style="background:#fef3c7; color:#92400e;">审计合规项</div>
+            </div>
+          `;
+        }
+      }
+
+      // 5. 动态更新达标提升方案卡片与大白话说明
+      const improveTitle = document.getElementById('improveCardPatentTitle');
+      const improveDesc = document.getElementById('improveCardPatentDesc');
+      const improveBadge = document.getElementById('improveCardPatentBadge');
+      const plainResult = document.getElementById('plainSolutionResult');
+
+      if (inv === 0) {
+        if (improveTitle) {
+          improveTitle.innerText = '3. 配置 1~2 件核心发明专利';
+          improveTitle.style.color = '#dc2626';
+        }
+        if (improveDesc) improveDesc.innerText = '走保护中心快速预审通道（2~3个月授权），直接拉满知识产权与成果转化项！';
+        if (improveBadge) {
+          improveBadge.className = 'score-gain-badge major';
+          improveBadge.innerText = '⚡ 提分贡献：+35 ~ 40 分 (直接过线)';
+        }
+        if (plainResult) {
+          plainResult.innerHTML = `补齐 1~2 件核心发明后，总分由 ${total} 分跃升至 <strong>78 ~ 85 分稳过及格线</strong>，加急合作价低至 5000 元/件。`;
+        }
+      } else if (inv === 1) {
+        if (improveTitle) {
+          improveTitle.innerText = '3. 补齐第 2 件核心发明专利';
+          improveTitle.style.color = '#ea580c';
+        }
+        if (improveDesc) improveDesc.innerText = '走保护中心快速预审通道（2~3个月极速授权），拉至满分档并衔接专精特新！';
+        if (improveBadge) {
+          improveBadge.className = 'score-gain-badge major';
+          improveBadge.innerText = '⚡ 提分贡献：+18 ~ 22 分 (高分稳过)';
+        }
+        if (plainResult) {
+          plainResult.innerHTML = `增配第 2 件核心发明后，总分由 ${total} 分提升至 <strong>78 ~ 84 分高分稳过</strong>，加急合作价低至 5000 元/件。`;
+        }
+      } else {
+        if (improveTitle) {
+          improveTitle.innerText = '3. 进阶布局专精特新核心专利池';
+          improveTitle.style.color = '#059669';
+        }
+        if (improveDesc) improveDesc.innerText = '紧扣主营产品技术路线，提前储备 2~3 件高价值发明，冲击省专精特新及小巨人！';
+        if (improveBadge) {
+          improveBadge.className = 'score-gain-badge';
+          improveBadge.style.background = '#dcfce7';
+          improveBadge.style.color = '#059669';
+          improveBadge.innerText = '🚀 进阶贡献：锁定专精特新硬性指标';
+        }
+        if (plainResult) {
+          plainResult.innerHTML = `当前高企总分已达 <strong>${total} 分稳过及格线</strong>，建议进阶布局专精特新主营产品专利池，加急合作价低至 5000 元/件。`;
+        }
+      }
+
+      // 计入今日配额
+      QuotaManager.consumeQuota(company);
+
       if (scrollDown) {
-        document.getElementById('blockOutput').scrollIntoView({ behavior: 'smooth' });
+        const outBlock = document.getElementById('blockOutput');
+        if (outBlock) outBlock.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
@@ -680,14 +1334,32 @@
       const urlParams = new URLSearchParams(window.location.search);
       const agencyName = urlParams.get('agency');
       const mode = urlParams.get('mode');
+      const code = urlParams.get('code');
 
-      if (agencyName) {
-        document.getElementById('agencyHeader').innerText = decodeURIComponent(agencyName) + " · 专属通道";
-      } else if (mode === 'agency') {
-        document.getElementById('agencyHeader').innerHTML = '<span style="color:#2563eb; font-weight:600;">[同行机构专属免水印白标版]</span>';
+      if (code) {
+        QuotaManager.unlockAgency(code);
       }
 
+      if (agencyName) {
+        const agencyH = document.getElementById('agencyHeader');
+        if (agencyH) agencyH.innerText = decodeURIComponent(agencyName) + " · 专属通道";
+      } else if (mode === 'agency') {
+        const agencyH = document.getElementById('agencyHeader');
+        if (agencyH) agencyH.innerHTML = '<span style="color:#2563eb; font-weight:600;">[同行机构专属免水印白标版]</span>';
+      }
+
+      QuotaManager.updateUI();
       runAnalysis(false);
+
+      const compIn = document.getElementById('companyInput');
+      if (compIn) {
+        compIn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            runAnalysis(true, true);
+          }
+        });
+      }
     });
   </script>
 </body>
